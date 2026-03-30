@@ -1,0 +1,26 @@
+STURLA DECISION TREE ANALYSIS SUMMARY
+============================================================
+
+Analysis Date: 2026-03-30 10:35:57.219178
+Dataset: 38308 grid cells
+STURLA Classes: ['b', 'bp', 'bpg', 'g', 'gp', 'p', 'tg', 'tp']
+Feature: Distance to Highway
+Target: PM2.5 by STURLA class
+Model: DecisionTreeRegressor (max_depth=3)
+Feature Importance: 1.0000
+
+POLLUTION MAPPING:
+  bp: 11.0 µg/m³
+  bpg: 10.5 µg/m³
+  bwp: 10.0 µg/m³
+  gp: 9.0 µg/m³
+  gw: 6.5 µg/m³
+  h: 9.5 µg/m³
+  m: 7.5 µg/m³
+  p: 12.5 µg/m³
+  tg: 8.0 µg/m³
+  tgw: 6.0 µg/m³
+
+OUTPUT FILES:
+  Tree diagram: ./data/sturla_decision_tree_simple.png
+  Analysis summary: ./data/sturla_simple_analysis_summary.txt

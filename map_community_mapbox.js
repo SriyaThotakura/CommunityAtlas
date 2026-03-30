@@ -689,15 +689,21 @@
 
     panel.innerHTML = `
       <h4>Community Layers</h4>
+      <label class="cl-toggle-row" id="cl-row-infra">
+        <input type="checkbox" checked>
+        <span class="cl-swatch" style="background:#FF6B35;transform:rotate(45deg);"></span>
+        Infrastructural Conflicts
+        <span class="cl-badge" id="cl-badge-infra">–</span>
+      </label>
       <label class="cl-toggle-row" id="cl-row-community">
         <input type="checkbox" checked>
-        <span class="cl-swatch" style="background:${CAT_COLOR.flood};"></span>
+        <span class="cl-swatch" style="background:#E24B4A;"></span>
         Community Testimony
         <span class="cl-badge" id="cl-badge-community">–</span>
       </label>
       <label class="cl-toggle-row" id="cl-row-s311">
         <input type="checkbox" checked>
-        <span class="cl-swatch" style="background:#E24B4A;"></span>
+        <span class="cl-swatch" style="background:#3B8BD4;"></span>
         311 Complaints
         <span class="cl-badge" id="cl-badge-s311">–</span>
       </label>
@@ -736,14 +742,11 @@
       });
     }
 
-    bind('cl-row-community', 'cl-badge-community', layers.community,
-         function () { return layers.communityCount; });
-    bind('cl-row-s311',      'cl-badge-s311',      layers.s311,
-         function () { return layers.s311Count; });
-    bind('cl-row-flood',     'cl-badge-flood',      layers.flood,
-         function () { return layers.floodCount; });
-    bind('cl-row-conv',      'cl-badge-conv',       layers.conv,
-         function () { return layers.convCount; });
+    bind('cl-row-infra', 'cl-badge-infra', layers.infra, function () { return layers.infraCount; });
+    bind('cl-row-community', 'cl-badge-community', layers.community, function () { return layers.communityCount; });
+    bind('cl-row-s311', 'cl-badge-s311', layers.s311, function () { return layers.s311Count; });
+    bind('cl-row-flood', 'cl-badge-flood', layers.flood, function () { return layers.floodCount; });
+    bind('cl-row-conv', 'cl-badge-conv', layers.conv, function () { return (layers.convCount || 0); });
   }
 
   // ── Public API ─────────────────────────────────────────────────────────────
@@ -791,18 +794,6 @@
         s311: s311.features.length,
         flood: flood.features.length
       });
-
-      // Build layers
-      const communityLayer = buildCommunityLayer(map, nodes);
-      const hexbinLayer    = buildHexbinLayer(map, s311);
-      const floodLayer     = buildFloodnetLayer(map, flood);
-
-      // Add to map
-      communityLayer.addTo(map);
-      if (!hexbinLayer) {
-        console.warn('[CommunityLayers] Hexbin layer failed to load');
-      }
-      floodLayer.addTo(map);
 
       // Convergence zones (needs all three datasets)
       const convLayer = detectConvergenceZones(map, nodes, s311, flood);

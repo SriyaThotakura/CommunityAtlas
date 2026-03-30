@@ -25,9 +25,200 @@
                         s311Path: './south-bronx-map/data/complaints_311.geojson',
                         floodPath: './south-bronx-map/data/floodnet_sensors.geojson'
                     });
+                } else {
+                    console.error('initCommunityLayers function not available');
                 }
             })
             .catch(error => console.error('Error loading community data:', error));
+        
+        // Infrastructural conflict pins data
+        const infrastructuralPins = [
+            {
+                name: "Bronx River (conflict point)",
+                coordinates: [-73.9235, 40.7915],
+                description: "Historic flooding conflicts with highway expansion plans",
+                type: "conflict"
+            },
+            {
+                name: "Starlight Park",
+                coordinates: [-73.8765, 40.8442],
+                description: "Park space reduction for highway construction",
+                type: "green_space"
+            },
+            {
+                name: "Concrete Plant Park",
+                coordinates: [-73.8852, 40.8234],
+                description: "Industrial site with environmental justice concerns",
+                type: "environmental"
+            },
+            {
+                name: "1244 Manor Ave (YMPJ office)",
+                coordinates: [-73.9145, 40.8567],
+                description: "Community advocacy center against highway impacts",
+                type: "community"
+            },
+            {
+                name: "Sheridan Blvd",
+                coordinates: [-73.9012, 40.8478],
+                description: "Major corridor with high traffic exposure",
+                type: "traffic"
+            },
+            {
+                name: "Bronx River Houses",
+                coordinates: [-73.9334, 40.8012],
+                description: "Housing directly adjacent to highway corridor",
+                type: "housing"
+            },
+            {
+                name: "West Farms Bus Depot",
+                coordinates: [-73.9456, 40.8123],
+                description: "Public transportation hub with environmental justice issues",
+                type: "transportation"
+            },
+            {
+                name: "Bruckner Expressway (interchange)",
+                coordinates: [-73.8789, 40.8654],
+                description: "Major highway interchange with community displacement",
+                type: "highway"
+            },
+            {
+                name: "Sound View Park",
+                coordinates: [-73.8623, 40.8711],
+                description: "Recreational space with highway noise impacts",
+                type: "recreation"
+            }
+        ];
+        
+        // State management
+        let currentPinIndex = -1;
+        let isTransitioning = false;
+        
+        // Add custom navigation controls
+        window.map.addControl(new mapboxgl.NavigationControl({
+            position: 'top-right'
+        }), 'custom-navigation');
+        
+        // Add scroll functionality with chapter-based navigation
+        window.map.on('wheel', (e) => {
+            if (e.originalEvent) return;
+            
+            const currentZoom = window.map.getZoom();
+            const currentCenter = window.map.getCenter();
+            
+            // Determine scroll direction and target
+            const scrollDelta = e.originalEvent.deltaY > 0 ? -1 : 1;
+            const scrollStep = 150; // pixels per scroll step
+            
+            // Calculate new center
+            const newCenter = [
+                currentCenter[0] + (scrollDelta * scrollStep * Math.cos(currentCenter[1] * Math.PI / 180) / currentZoom),
+                currentCenter[1] - (scrollDelta * scrollStep * Math.sin(currentCenter[1] * Math.PI / 180) / currentZoom)
+            ];
+            
+            // Smooth transition to new center
+            window.map.easeTo({
+                center: newCenter,
+                duration: 800,
+                essential: true
+            });
+            
+            // Update pin highlighting based on scroll position
+            updatePinHighlight();
+        });
+        
+        // Add click handler for pins
+        window.map.on('click', (e) => {
+            const features = window.map.queryRenderedFeatures(e.point);
+            
+            if (features.length > 0) {
+                const feature = features[0];
+                
+                // Create popup content
+                const popupContent = `
+                    <div style="font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 12px; padding: 8px;">
+                        <h3 style="margin: 0 0 8px 0; color: #1a2332; font-weight: bold;">${feature.properties.name || 'Unknown Location'}</h3>
+                        <p style="margin: 4px 0; color: #555;">${feature.properties.description || 'No description available'}</p>
+                        <p style="margin: 4px 0; font-size: 11px; color: #777;">
+                            <strong>Type:</strong> ${feature.properties.type || 'Unknown'}<br>
+                            <strong>Coordinates:</strong> ${feature.geometry.coordinates[0][1].toFixed(4)}, ${feature.geometry.coordinates[0][0].toFixed(4)}
+                        </p>
+                        <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #ddd;">
+                            <button onclick="flyToPin(${feature.geometry.coordinates[0][1]}, ${feature.geometry.coordinates[0][0]})" 
+                                    style="background: #1a2332; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 11px;">
+                                Navigate to Location
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                new mapboxgl.Popup({ offset: 15, closeButton: false })
+                    .setLngLat(e.lngLat)
+                    .setHTML(popupContent)
+                    .addTo(window.map);
+            }
+        });
+        
+        // Function to update pin highlighting
+        function updatePinHighlight() {
+            const zoom = window.map.getZoom();
+            const center = window.map.getCenter();
+            
+            // Calculate which pin should be highlighted based on current zoom and center
+            const targetRadius = 0.02; // degrees of zoom
+            const distance = Math.sqrt(
+                Math.pow(center[0] - 40.8442, 2) + Math.pow(center[1] - 40.7915, 2)
+            );
+            
+            let highlightedIndex = -1;
+            
+            infrastructuralPins.forEach((pin, index) => {
+                const pinDistance = Math.sqrt(
+                    Math.pow(pin.coordinates[0] - center[0], 2) + Math.pow(pin.coordinates[1] - center[1], 2)
+                );
+                
+                // Highlight pin if within target radius
+                if (pinDistance <= targetRadius && index !== currentPinIndex) {
+                    highlightedIndex = index;
+                }
+            });
+            
+            // Update source data to trigger re-rendering
+            if (window.map.getSource('infrastructural-pins')) {
+                window.map.getSource('infrastructural-pins').setData({
+                    type: 'FeatureCollection',
+                    features: infrastructuralPins.map((pin, index) => ({
+                        type: 'Feature',
+                        geometry: {
+                            type: 'Point',
+                            coordinates: pin.coordinates
+                        },
+                        properties: {
+                            ...pin.properties,
+                            highlighted: index === highlightedIndex
+                        }
+                    }))
+                });
+            }
+        }
+        
+        // Function to fly to specific pin
+        window.flyToPin = (lng, lat) => {
+            window.map.flyTo({
+                center: [lng, lat],
+                zoom: 14,
+                duration: 1200,
+                essential: true
+            });
+        };
+        
+        // Initialize layers
+        if (typeof initCommunityLayers === 'function') {
+            initCommunityLayers(window.map, {
+                nodesPath: './south-bronx-map/data/community_nodes_extended.geojson',
+                s311Path: './south-bronx-map/data/complaints_311.geojson',
+                floodPath: './south-bronx-map/data/floodnet_sensors.geojson'
+            });
+        }
     </script>
     <style>
         body { margin: 0; padding: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
