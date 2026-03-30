@@ -1,0 +1,19 @@
+{
+  "feature_importances": {
+    "STURLA_class_encoded": 0.0,
+    "dist_highway_m": 1.0
+  },
+  "r2_score": 0.2222,
+  "mae_ug_m3": 0.4908,
+  "sturla_label_encoding": {
+    "p": 0,
+    "tg": 1,
+    "tpl": 2
+  },
+  "model_params": {
+    "max_depth": 5,
+    "min_samples_leaf": 10,
+    "n_features": 2,
+    "n_cells": 2392
+  }
+}

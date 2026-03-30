@@ -1,0 +1,9 @@
+spacy>=3.7
+vaderSentiment>=3.3.2
+scikit-learn>=1.4
+geopandas>=0.14
+requests>=2.31
+shapely>=2.0
+numpy>=1.26
+pandas>=2.1
+pyproj>=3.6

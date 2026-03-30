@@ -1,0 +1,69 @@
+{
+  "total_statements": 15,
+  "categories": [
+    "flood",
+    "air_quality",
+    "heat",
+    "displacement"
+  ],
+  "flood": {
+    "count": 4,
+    "avg_urgency": 0.6658,
+    "avg_agency": 0.25,
+    "top_keywords": [
+      "river",
+      "park",
+      "floods",
+      "path",
+      "years",
+      "ve",
+      "water",
+      "city"
+    ]
+  },
+  "air_quality": {
+    "count": 5,
+    "avg_urgency": 0.3702,
+    "avg_agency": 0.6,
+    "top_keywords": [
+      "air",
+      "right",
+      "expressway",
+      "depot",
+      "fumes",
+      "neighborhood",
+      "says",
+      "building"
+    ]
+  },
+  "heat": {
+    "count": 4,
+    "avg_urgency": 0.3567,
+    "avg_agency": 0.25,
+    "top_keywords": [
+      "heat",
+      "cooling",
+      "trees",
+      "building",
+      "concrete",
+      "haven",
+      "need",
+      "avenue"
+    ]
+  },
+  "displacement": {
+    "count": 2,
+    "avg_urgency": 0.5918,
+    "avg_agency": 0.5,
+    "top_keywords": [
+      "block",
+      "river",
+      "bronx",
+      "years",
+      "rent",
+      "winter",
+      "reported",
+      "real"
+    ]
+  }
+}

@@ -1,0 +1,347 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:4326"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.9098, 40.8475]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "air_quality",
+        "urgency": 0.8234,
+        "agency": 0,
+        "quote": "The exhaust from Major Deegan and Cross Bronx junction creates a constant haze. My kids have asthma attacks daily, especially during rush hour traffic.",
+        "places_mentioned": ["Major Deegan Expressway", "Cross Bronx Expressway"],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.9072, 40.8462]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "heat",
+        "urgency": 0.7123,
+        "agency": 0,
+        "quote": "University Heights becomes an oven in summer. The highway heat gets trapped between buildings, and we have no green spaces to escape.",
+        "places_mentioned": ["University Heights"],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.9045, 40.8450]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "air_quality",
+        "urgency": 0.9456,
+        "agency": 0,
+        "quote": "Living right above the Jerome Avenue entrance means constant noise and pollution. Trucks shake our building at all hours.",
+        "places_mentioned": ["Jerome Avenue"],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.9010, 40.8440]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "displacement",
+        "urgency": 0.6789,
+        "agency": 0,
+        "quote": "Mount Eden rents keep rising as developers build luxury towers near the highway. Long-term families are being pushed out.",
+        "places_mentioned": ["Mount Eden"],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.8980, 40.8428]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "flood",
+        "urgency": 0.8234,
+        "agency": 0,
+        "quote": "Highbridge floods every heavy rain. The highway drainage overflows onto our streets and basements.",
+        "places_mentioned": ["Highbridge"],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.8950, 40.8415]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "air_quality",
+        "urgency": 0.7567,
+        "agency": 0,
+        "quote": "Morris Heights has the highest asthma rates in the Bronx. The highway runs right through our neighborhood.",
+        "places_mentioned": ["Morris Heights"],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.8920, 40.8402]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "heat",
+        "urgency": 0.6890,
+        "agency": 0,
+        "quote": "Fordham Heights lacks trees. The highway heat radiates into our apartments, making summers unbearable.",
+        "places_mentioned": ["Fordham Heights"],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.8890, 40.8390]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "displacement",
+        "urgency": 0.7345,
+        "agency": 0,
+        "quote": "Tremont is being gentrified. The highway makes our neighborhood 'accessible' to developers, but not to us anymore.",
+        "places_mentioned": ["Tremont"],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.8860, 40.8378]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "air_quality",
+        "urgency": 0.8456,
+        "agency": 0,
+        "quote": "West Farms is sandwiched between highways. The air quality is terrible, especially for our elderly residents.",
+        "places_mentioned": ["West Farms"],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.8830, 40.8365]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "flood",
+        "urgency": 0.7678,
+        "agency": 0,
+        "quote": "Crotona Park East floods constantly. The highway prevents proper water drainage in our area.",
+        "places_mentioned": ["Crotona Park East"],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.8800, 40.8352]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "heat",
+        "urgency": 0.6234,
+        "agency": 0,
+        "quote": "West Farms Square becomes a heat island. The highway asphalt absorbs heat all day and releases it at night.",
+        "places_mentioned": ["West Farms Square"],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.8770, 40.8340]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "air_quality",
+        "urgency": 0.8901,
+        "agency": 0,
+        "quote": "Bronx River highway crossing creates constant traffic jams. The idling trucks poison our air.",
+        "places_mentioned": ["Bronx River"],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.8740, 40.8328]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "displacement",
+        "urgency": 0.7012,
+        "agency": 0,
+        "quote": "Soundview rents are skyrocketing. The highway makes us 'convenient' but we can't afford to live here anymore.",
+        "places_mentioned": ["Soundview"],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.8710, 40.8315]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "flood",
+        "urgency": 0.7456,
+        "agency": 0,
+        "quote": "Castle Hill floods whenever it rains. The highway overpass blocks drainage and creates pools on our streets.",
+        "places_mentioned": ["Castle Hill"],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.8680, 40.8302]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "air_quality",
+        "urgency": 0.8123,
+        "agency": 0,
+        "quote": "Parkchester has high cancer rates. We're surrounded by highway traffic on all sides.",
+        "places_mentioned": ["Parkchester"],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.8650, 40.8290]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "heat",
+        "urgency": 0.6567,
+        "agency": 0,
+        "quote": "Westchester Square has no shade. The highway creates a wind tunnel that makes the heat worse.",
+        "places_mentioned": ["Westchester Square"],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.8620, 40.8278]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "displacement",
+        "urgency": 0.7345,
+        "agency": 0,
+        "quote": "Pelham Bay is being developed rapidly. The highway makes us attractive to luxury developers.",
+        "places_mentioned": ["Pelham Bay"],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.8590, 40.8265]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "air_quality",
+        "urgency": 0.8789,
+        "agency": 0,
+        "quote": "Co-op City has terrible air quality. We're trapped between the Cross Bronx and other highways.",
+        "places_mentioned": ["Co-op City"],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.8565, 40.8252]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "flood",
+        "urgency": 0.7234,
+        "agency": 0,
+        "quote": "Bay Plaza floods constantly. The highway prevents proper water management in our area.",
+        "places_mentioned": ["Bay Plaza"],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.8540, 40.8240]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "heat",
+        "urgency": 0.6678,
+        "agency": 0,
+        "quote": "Near Throgs Neck Bridge, the heat from highway traffic is overwhelming. We have no relief.",
+        "places_mentioned": ["Throgs Neck Bridge"],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.8515, 40.8228]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "air_quality",
+        "urgency": 0.8345,
+        "agency": 0,
+        "quote": "Clearview Expressway junction creates constant traffic congestion. The air quality is dangerous.",
+        "places_mentioned": ["Clearview Expressway"],
+        "source": "interview"
+      }
+    }
+  ]
+}

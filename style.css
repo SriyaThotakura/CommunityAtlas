@@ -1,0 +1,540 @@
+/* ── Reset & Root ─────────────────────────────────────────────────────────── */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --black:      #1A1A1A;
+  --white:      #F9F9F9;
+  --grey-100:   #ECECEC;
+  --grey-200:   #D4D4D4;
+  --grey-400:   #9A9A9A;
+  --grey-600:   #555555;
+
+  --sturla-p:   #1A1A1A;
+  --sturla-tpl: #888888;
+  --sturla-tg:  #00FFAA;  /* Neon Mint */
+
+  /* RF 4-class palette - NEON TOXIC FOG COLORS */
+  --sturla-th:  #FF0055;  /* Neon Crimson */
+  --sturla-td:  #FF6600;  /* Neon Orange */
+  --sturla-ts:  #FFCC00;  /* Neon Yellow */
+
+  --accent:     #C8321A;    /* forensic red — used sparingly */
+
+  --font:       'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+  --border:     1px solid var(--black);
+  --border-heavy: 4px solid var(--black);
+
+  --scroll-width: 50vw;
+  --map-width:    50vw;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--white);
+  color: var(--black);
+  overflow: hidden;           /* outer body never scrolls */
+}
+
+/* ── App Layout — 50/50 split ─────────────────────────────────────────────── */
+
+#app {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* ── Left: Scroll Panel ───────────────────────────────────────────────────── */
+
+#scroll-panel {
+  width: var(--scroll-width);
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--white);
+  border-right: var(--border);
+
+  /* Hide scrollbar visually, keep functionality */
+  scrollbar-width: thin;
+  scrollbar-color: var(--grey-200) transparent;
+}
+#scroll-panel::-webkit-scrollbar { width: 4px; }
+#scroll-panel::-webkit-scrollbar-track { background: transparent; }
+#scroll-panel::-webkit-scrollbar-thumb { background: var(--grey-200); }
+
+/* ── Atlas Header ─────────────────────────────────────────────────────────── */
+
+#atlas-header {
+  padding: 64px 56px 72px;
+  border-bottom: var(--border-heavy);
+  position: relative;
+}
+
+.eyebrow {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--grey-400);
+  margin-bottom: 32px;
+}
+
+#atlas-header h1 {
+  font-size: clamp(72px, 8vw, 108px);
+  font-weight: 900;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: var(--black);
+  margin-bottom: 32px;
+}
+
+.lede {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--grey-600);
+  max-width: 420px;
+  margin-bottom: 48px;
+}
+
+.scroll-cue {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--grey-400);
+}
+
+/* ── Interview Sections ───────────────────────────────────────────────────── */
+
+.interview-section {
+  padding: 64px 56px 72px;
+  border-bottom: var(--border);
+  transition: background 0.4s ease;
+}
+
+.interview-section.is-active {
+  background: var(--white);
+}
+
+.section-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.section-index {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--accent);
+  font-feature-settings: 'tnum';
+}
+
+.section-location {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--grey-400);
+}
+
+.interview-section h2 {
+  font-size: clamp(26px, 3vw, 36px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 36px;
+  border-left: 4px solid var(--black);
+  padding-left: 20px;
+}
+
+/* ── Data Callout ─────────────────────────────────────────────────────────── */
+
+.data-callout {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  background: var(--black);
+  color: var(--white);
+  padding: 24px 28px;
+  margin-bottom: 36px;
+}
+
+.callout-figure {
+  font-size: 44px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.callout-unit {
+  font-size: 18px;
+  font-weight: 400;
+  vertical-align: top;
+  margin-top: 6px;
+  display: inline-block;
+}
+
+.callout-desc {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--grey-200);
+  padding-top: 4px;
+}
+
+/* ── Blockquote ───────────────────────────────────────────────────────────── */
+
+blockquote {
+  margin: 0 0 32px;
+  padding: 24px 28px;
+  border: var(--border);
+  border-left: 4px solid var(--grey-400);
+  background: var(--white);
+}
+
+blockquote p {
+  font-size: 15px;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.7;
+  color: var(--black);
+  margin-bottom: 12px;
+}
+
+blockquote cite {
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--grey-400);
+}
+
+/* ── Body Text ────────────────────────────────────────────────────────────── */
+
+.body-text {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--grey-600);
+  margin-bottom: 20px;
+}
+
+.body-text strong {
+  color: var(--black);
+  font-weight: 600;
+}
+
+/* ── Data Table ───────────────────────────────────────────────────────────── */
+
+.data-table {
+  margin: 32px 0 0;
+  border: var(--border);
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-bottom: var(--border);
+  font-size: 12px;
+}
+
+.table-row:last-child { border-bottom: none; }
+
+.table-row span {
+  padding: 12px 16px;
+  border-right: var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-feature-settings: 'tnum';
+}
+
+.table-row span:last-child { border-right: none; }
+
+.table-header {
+  background: var(--black);
+  color: var(--white);
+}
+
+.table-header span {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── STURLA Tags ──────────────────────────────────────────────────────────── */
+
+.sturla-tag {
+  display: inline-block;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 2px 6px;
+  text-transform: lowercase;
+}
+
+.sturla-p   { background: var(--sturla-p);   color: var(--white); }
+.sturla-tpl { background: var(--sturla-tpl); color: var(--white); }
+.sturla-tg  { background: var(--sturla-tg);  color: var(--black); } /* Neon mint needs black text */
+.sturla-th  { background: var(--sturla-th);  color: var(--white); } /* Neon crimson */
+.sturla-td  { background: var(--sturla-td);  color: var(--white); } /* Neon orange */
+.sturla-ts  { background: var(--sturla-ts);  color: var(--black); } /* Neon yellow needs black text */
+
+/* ── Footer ───────────────────────────────────────────────────────────────── */
+
+#atlas-footer {
+  padding: 64px 56px 80px;
+  border-top: var(--border-heavy);
+  background: var(--grey-100);
+}
+
+.footer-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--grey-400);
+  margin-bottom: 20px;
+}
+
+#atlas-footer p {
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--grey-600);
+  margin-bottom: 16px;
+  max-width: 520px;
+}
+
+#atlas-footer code {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 11px;
+  background: var(--grey-200);
+  padding: 1px 4px;
+}
+
+.footer-credit {
+  margin-top: 40px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--grey-400);
+  border-top: var(--border);
+  padding-top: 20px;
+}
+
+/* ── Right: Map Panel ─────────────────────────────────────────────────────── */
+
+#map-panel {
+  width: var(--map-width);
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background: #111;
+  filter: drop-shadow(-8px 0px 24px rgba(0, 0, 0, 0.18));
+  transform: translateZ(0);   /* GPU layer — keeps shadow crisp */
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Map UI Overlays ──────────────────────────────────────────────────────── */
+
+#map-ui {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.ui-card {
+  position: absolute;
+  background: rgba(249, 249, 249, 0.96);
+  border: var(--border);
+  pointer-events: auto;
+}
+
+/* Section label — top left of map */
+#section-label {
+  top: 20px;
+  left: 20px;
+  padding: 14px 18px;
+  min-width: 160px;
+}
+
+#section-label-index {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  margin-bottom: 4px;
+  font-feature-settings: 'tnum';
+}
+
+#section-label-text {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--black);
+  letter-spacing: 0.02em;
+  transition: opacity 0.3s ease;
+}
+
+/* Legend — bottom left of map */
+#legend {
+  bottom: 20px;
+  left: 20px;
+  padding: 16px 20px;
+  min-width: 210px;
+}
+
+.legend-title {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--grey-600);
+  margin-bottom: 4px;
+}
+
+.legend-scale {
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--grey-400);
+  margin-bottom: 14px;
+  font-feature-settings: 'tnum';
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.legend-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  color: var(--black);
+}
+
+.legend-item code {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.legend-swatch {
+  display: block;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  border: var(--border);
+}
+
+.legend-dot {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid var(--black);
+}
+
+.legend-divider {
+  border-top: var(--border);
+  margin-top: 12px;
+}
+
+.swatch-p   { background: #333333; }
+.swatch-tpl { background: #AAAAAA; opacity: 0.7; }
+.swatch-tg  { background: #E0E0E0; opacity: 0.4; }
+.swatch-th  { background: #1A1A1A; }
+.swatch-td  { background: #4B5563; }
+.swatch-ts  { background: #9CA3AF; opacity: 0.7; }
+
+/* Loading indicator — bottom right */
+#map-loading {
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 14px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--grey-400);
+  transition: opacity 0.5s ease;
+}
+
+#map-loading.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Mapbox attribution & logo override */
+.mapboxgl-ctrl-attrib {
+  font-size: 9px !important;
+  background: rgba(249,249,249,0.7) !important;
+}
+
+.mapboxgl-ctrl-logo { opacity: 0.5; }
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  :root {
+    --scroll-width: 100vw;
+    --map-width:    100vw;
+  }
+
+  body { overflow: auto; }
+
+  #app { flex-direction: column; height: auto; }
+
+  #scroll-panel {
+    width: 100vw;
+    height: auto;
+    overflow-y: visible;
+    border-right: none;
+    border-bottom: var(--border-heavy);
+  }
+
+  #map-panel {
+    width: 100vw;
+    height: 60vh;
+    position: relative;
+    top: auto;
+    right: auto;
+  }
+
+  #atlas-header { padding: 48px 32px 56px; }
+  .interview-section { padding: 48px 32px 56px; }
+}

@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cmd /c \"mkdir \"\"c:\\\\Users\\\\ReiChiquita\\\\Desktop\\\\spring\\\\CQ\\\\CommunityMap\\\\south-bronx-map\\\\interviews\"\" && mkdir \"\"c:\\\\Users\\\\ReiChiquita\\\\Desktop\\\\spring\\\\CQ\\\\CommunityMap\\\\south-bronx-map\\\\data\"\"\")",
+      "Bash(cmd /c \"if not exist \"\"c:\\\\Users\\\\ReiChiquita\\\\Desktop\\\\spring\\\\CQ\\\\CommunityMap\\\\south-bronx-map\\\\interviews\"\" mkdir \"\"c:\\\\Users\\\\ReiChiquita\\\\Desktop\\\\spring\\\\CQ\\\\CommunityMap\\\\south-bronx-map\\\\interviews\"\"\")",
+      "Bash(cmd /c \"if not exist \"\"c:\\\\Users\\\\ReiChiquita\\\\Desktop\\\\spring\\\\CQ\\\\CommunityMap\\\\south-bronx-map\\\\data\"\" mkdir \"\"c:\\\\Users\\\\ReiChiquita\\\\Desktop\\\\spring\\\\CQ\\\\CommunityMap\\\\south-bronx-map\\\\data\"\"\")",
+      "Bash(python:*)",
+      "Bash(dir:*)"
+    ]
+  }
+}

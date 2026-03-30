@@ -1,0 +1,176 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:4326"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.9098, 40.8475]
+      },
+      "properties": {
+        "type": "floodnet",
+        "sensor_id": "CBX-001",
+        "location": "Major Deegan Junction",
+        "flood_event_count": 12,
+        "last_reading": "2024-03-15T14:30:00Z",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.9045, 40.8450]
+      },
+      "properties": {
+        "type": "floodnet",
+        "sensor_id": "CBX-002",
+        "location": "Jerome Avenue",
+        "flood_event_count": 8,
+        "last_reading": "2024-03-15T14:25:00Z",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.8980, 40.8428]
+      },
+      "properties": {
+        "type": "floodnet",
+        "sensor_id": "CBX-003",
+        "location": "Highbridge",
+        "flood_event_count": 15,
+        "last_reading": "2024-03-15T14:35:00Z",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.8920, 40.8402]
+      },
+      "properties": {
+        "type": "floodnet",
+        "sensor_id": "CBX-004",
+        "location": "Fordham Heights",
+        "flood_event_count": 6,
+        "last_reading": "2024-03-15T14:20:00Z",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.8860, 40.8378]
+      },
+      "properties": {
+        "type": "floodnet",
+        "sensor_id": "CBX-005",
+        "location": "West Farms",
+        "flood_event_count": 18,
+        "last_reading": "2024-03-15T14:40:00Z",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.8800, 40.8352]
+      },
+      "properties": {
+        "type": "floodnet",
+        "sensor_id": "CBX-006",
+        "location": "West Farms Square",
+        "flood_event_count": 9,
+        "last_reading": "2024-03-15T14:15:00Z",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.8740, 40.8328]
+      },
+      "properties": {
+        "type": "floodnet",
+        "sensor_id": "CBX-007",
+        "location": "Soundview",
+        "flood_event_count": 11,
+        "last_reading": "2024-03-15T14:45:00Z",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.8680, 40.8302]
+      },
+      "properties": {
+        "type": "floodnet",
+        "sensor_id": "CBX-008",
+        "location": "Parkchester",
+        "flood_event_count": 7,
+        "last_reading": "2024-03-15T14:10:00Z",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.8620, 40.8278]
+      },
+      "properties": {
+        "type": "floodnet",
+        "sensor_id": "CBX-009",
+        "location": "Westchester Square",
+        "flood_event_count": 5,
+        "last_reading": "2024-03-15T14:05:00Z",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.8565, 40.8252]
+      },
+      "properties": {
+        "type": "floodnet",
+        "sensor_id": "CBX-010",
+        "location": "Bay Plaza",
+        "flood_event_count": 14,
+        "last_reading": "2024-03-15T14:50:00Z",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.8515, 40.8228]
+      },
+      "properties": {
+        "type": "floodnet",
+        "sensor_id": "CBX-011",
+        "location": "Clearview Junction",
+        "flood_event_count": 10,
+        "last_reading": "2024-03-15T14:55:00Z",
+        "status": "active"
+      }
+    }
+  ]
+}

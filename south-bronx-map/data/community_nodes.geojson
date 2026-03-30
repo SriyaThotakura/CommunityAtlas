@@ -1,0 +1,333 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8985,
+          40.8172
+        ]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "flood",
+        "urgency": 0.5423,
+        "agency": 0,
+        "quote": "Every time it rains hard, the basement floods on Tiffany Street. The water comes up to the second step. We've called 311 at least eight times and nothing gets fixed. The drain on the corner has been broken for two years.",
+        "places_mentioned": [
+          "Tiffany Street"
+        ],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.882,
+          40.815
+        ]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "air_quality",
+        "urgency": 0.296,
+        "agency": 0,
+        "quote": "My kids have asthma. The trucks from the Hunts Point market go right past our building on Longwood Avenue at 3am, and the diesel exhaust just sits in the air. You can smell it through the windows. The doctor says my son's inhaler use doubled since we moved here.",
+        "places_mentioned": [
+          "Hunts Point",
+          "Longwood Avenue"
+        ],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.886,
+          40.831
+        ]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "air_quality",
+        "urgency": 0.0315,
+        "agency": 1,
+        "quote": "They built the Cross Bronx Expressway right through the neighborhood in the 1950s and they never asked us anything. Now we live in the trench. The noise never stops. The air never clears. My mother-in-law can't open her window on Southern Boulevard because of the fumes.",
+        "places_mentioned": [
+          "the Cross Bronx Expressway",
+          "Southern Boulevard"
+        ],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.869,
+          40.826
+        ]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "heat",
+        "urgency": 0.7227,
+        "agency": 0,
+        "quote": "The heat in the summer on Westchester Avenue is unbearable. There's no shade. All concrete, no trees. The city put trees in Riverdale but not here. My grandmother stays inside from June to September because she's scared of the heat. We need cooling centers that actually stay open.",
+        "places_mentioned": [
+          "Westchester Avenue"
+        ],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8752,
+          40.8297
+        ]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "flood",
+        "urgency": 0.7992,
+        "agency": 1,
+        "quote": "Starlight Park finally opened and it gave us something. The Bronx River path is beautiful when it's clean. But when it floods after a storm the path turns into a river itself and the park closes for days. We need better drainage along the river.",
+        "places_mentioned": [
+          "Bronx River"
+        ],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8659,
+          40.8217
+        ]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "displacement",
+        "urgency": 0.8225,
+        "agency": 0,
+        "quote": "I've been in this apartment on Manor Avenue for eleven years. My landlord raised the rent again. He knows we can't afford to move, so he fixes nothing. The heating system broke twice last winter. We reported it to HPD and the inspector never came. Displacement is real and it's happening block by block.",
+        "places_mentioned": [
+          "Manor Avenue",
+          "HPD"
+        ],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.857,
+          40.8158
+        ]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "air_quality",
+        "urgency": 0.4404,
+        "agency": 1,
+        "quote": "The Bruckner Expressway interchange near Soundview is a nightmare. Semi trucks idle there for hours. The kids at PS 48 are breathing that all day. The school is right there off Lafayette Avenue and the air quality testing showed PM2.5 levels three times the safe limit.",
+        "places_mentioned": [
+          "The Bruckner Expressway",
+          "Soundview",
+          "PS 48",
+          "Lafayette Avenue"
+        ],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8752,
+          40.8297
+        ]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "flood",
+        "urgency": 0.5499,
+        "agency": 0,
+        "quote": "After Hurricane Ida the whole ground floor of the Bronx River Houses flooded. They had to move families to hotels for weeks. FEMA came eventually but the mold is still there six months later. Nobody fixes the root problem which is that the whole area is a flood plain and the city built housing there anyway.",
+        "places_mentioned": [
+          "the Bronx River Houses",
+          "FEMA"
+        ],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.89942,
+          40.831664
+        ]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "heat",
+        "urgency": 0.3818,
+        "agency": 1,
+        "quote": "The concrete plant on the river used to be here for decades. Even after they cleaned it up the soil is still contaminated. Our kids played on that lot for years before anyone told us. The park is nice now but we wonder what's underneath.",
+        "places_mentioned": [],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.927762,
+          40.812957
+        ]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "air_quality",
+        "urgency": 0.4404,
+        "agency": 1,
+        "quote": "West Farms Bus Depot puts out fumes all night. The neighborhood around the depot has some of the highest asthma rates in the city. The MTA keeps saying they're going to electrify but nothing happens. We've been hearing that promise for ten years at community board meetings.",
+        "places_mentioned": [
+          "MTA"
+        ],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8752,
+          40.8297
+        ]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "heat",
+        "urgency": 0.3182,
+        "agency": 0,
+        "quote": "I grew up on Sheridan Boulevard and I watched the neighborhood change. The expressway cut us off from the rest of the Bronx. You have to go blocks out of your way just to cross. It's like they designed it to keep us trapped. Now they want to put bike lanes in but they haven't fixed the sidewalks yet.",
+        "places_mentioned": [
+          "Bronx"
+        ],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.857,
+          40.8158
+        ]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "flood",
+        "urgency": 0.7717,
+        "agency": 0,
+        "quote": "The flooding at the intersection near the Bruckner is the worst I've seen it. Last September the water was up to the car windows. People were abandoning their cars. The city knew this was going to happen because Soundview Park floods every major storm and has for twenty years.",
+        "places_mentioned": [
+          "Bruckner",
+          "Soundview Park"
+        ],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.926,
+          40.816
+        ]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "air_quality",
+        "urgency": 0.6428,
+        "agency": 0,
+        "quote": "My daughter has chronic respiratory problems and we've been trying to get transferred to a different building for three years. The air quality near the expressway is measurably worse. The doctors at Lincoln Hospital confirmed it. But the housing authority says there's no availability anywhere in the borough.",
+        "places_mentioned": [
+          "Lincoln Hospital"
+        ],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.884,
+          40.823
+        ]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "heat",
+        "urgency": 0.0041,
+        "agency": 0,
+        "quote": "They closed the cooling center on Story Avenue in 2019 and haven't reopened it. During the 2022 heatwave three elderly people in our building had heat emergencies. We had to drive them ourselves because the building has no cooling system and the city's resources were stretched. We need permanent infrastructure, not emergency responses.",
+        "places_mentioned": [
+          "Story Avenue"
+        ],
+        "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8752,
+          40.8297
+        ]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "displacement",
+        "urgency": 0.3612,
+        "agency": 1,
+        "quote": "The rent at the new buildings going up near the Bronx River is three thousand a month. My whole neighborhood is being priced out. The people who stayed through the hard years, through the Cross Bronx, through the pollution, through everything \u2014 now we're being pushed out because the river is suddenly attractive to developers.",
+        "places_mentioned": [
+          "the Bronx River",
+          "the Cross Bronx"
+        ],
+        "source": "interview"
+      }
+    }
+  ],
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:4326"
+    }
+  }
+}

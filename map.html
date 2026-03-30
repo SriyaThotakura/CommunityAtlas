@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Cross Bronx Isometric Terrain Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.css" rel="stylesheet">
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.js"></script>
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: #f2f2f2;
+      font-family: Arial, sans-serif;
+    }
+
+    #map {
+      position: absolute;
+      inset: 0;
+    }
+
+    .label {
+      background: rgba(255,255,255,0.92);
+      color: #12345b;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 1.15;
+      padding: 6px 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      border: 1px solid rgba(18,52,91,0.15);
+      white-space: nowrap;
+    }
+
+    .pin {
+      width: 18px;
+      height: 18px;
+      border-radius: 50% 50% 50% 0;
+      background: #e33b2f;
+      transform: rotate(-45deg);
+      border: 2px solid white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      position: relative;
+    }
+
+    .pin::after {
+      content: "";
+      width: 6px;
+      height: 6px;
+      background: white;
+      border-radius: 50%;
+      position: absolute;
+      left: 4px;
+      top: 4px;
+    }
+
+    .marker-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transform: translateY(-10px);
+    }
+
+    .mapboxgl-popup-content {
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-weight: 700;
+    }
+
+    .legend {
+      position: absolute;
+      right: 14px;
+      bottom: 14px;
+      z-index: 10;
+      background: rgba(255,255,255,0.94);
+      border-radius: 12px;
+      padding: 12px 14px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+      font-size: 13px;
+      max-width: 260px;
+    }
+
+    .legend h3 {
+      margin: 0 0 8px 0;
+      font-size: 14px;
+      color: #12345b;
+    }
+
+    .legend .row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 6px 0;
+    }
+
+    .swatch {
+      width: 18px;
+      height: 10px;
+      border-radius: 3px;
+      flex: 0 0 auto;
+    }
+
+    .swatch-river {
+      background: #2b7bbb;
+    }
+
+    .swatch-trench {
+      background: #183b5b;
+    }
+
+    .swatch-line {
+      height: 0;
+      width: 18px;
+      border-top: 3px dashed #d1a420;
+    }
+
+    .note {
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      z-index: 10;
+      background: rgba(255,255,255,0.94);
+      border-radius: 12px;
+      padding: 12px 14px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+      font-size: 13px;
+      max-width: 320px;
+      color: #12345b;
+    }
+
+    .note strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <div class="note">
+    <strong>Setup</strong>
+    Replace <code>YOUR_MAPBOX_ACCESS_TOKEN</code> with your token.
+    This example uses a terrain-heavy isometric camera and a stylized trench overlay.
+  </div>
+
+  <div class="legend">
+    <h3>Map Layers</h3>
+    <div class="row"><span class="swatch swatch-river"></span> Bronx River</div>
+    <div class="row"><span class="swatch swatch-trench"></span> Trench / cut area</div>
+    <div class="row"><span class="swatch-line"></span> Highlight line</div>
+  </div>
+
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1Ijoic3JpeWF0aG90YWt1cmEiLCJhIjoiY21kYzhuMG1hMTVrbjJpcHpnZ3Awdjc1dCJ9.bEGwdPmOH5kVaT9RWduC5Q';
+
+    const map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/satellite-streets-v12',
+      center: [-73.8765, 40.8265],
+      zoom: 12.6,
+      pitch: 72,
+      bearing: -36,
+      antialias: true,
+      hash: false
+    });
+
+    const places = [
+      { name: 'Bronx River', coords: [-73.8752, 40.8297] },
+      { name: 'Starlight Park', coords: [-73.8742, 40.8325] },
+      { name: 'Concrete Plant', coords: [-73.8889, 40.8238] },
+      { name: 'Concrete Plant Park', coords: [-73.8898, 40.8212] },
+      { name: '1244 Manor Ave, Bronx, NY 10472, USA (YMPJ office)', coords: [-73.8659, 40.8217] },
+      { name: 'Sheridan Blvd', coords: [-73.8702, 40.8362] },
+      { name: 'Bronx River Houses', coords: [-73.8692, 40.8343] },
+      { name: 'West Farms Bus Depot - New York City Transit', coords: [-73.8822, 40.8176] },
+      { name: 'Bruckner Expressway', coords: [-73.8570, 40.8158] },
+      { name: 'Soundview Park', coords: [-73.8608, 40.8102] }
+    ];
+
+    const bronxRiverLine = {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-73.8910, 40.8200],
+          [-73.8870, 40.8220],
+          [-73.8830, 40.8240],
+          [-73.8795, 40.8265],
+          [-73.8765, 40.8290],
+          [-73.8740, 40.8320],
+          [-73.8715, 40.8350],
+          [-73.8695, 40.8380]
+        ]
+      },
+      "properties": { "name": "Bronx River" }
+    };
+
+    const trenchAreas = {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": { "name": "Cross Bronx trench west" },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [[
+              [-73.8874, 40.8194],
+              [-73.8822, 40.8195],
+              [-73.8806, 40.8210],
+              [-73.8827, 40.8222],
+              [-73.8882, 40.8216],
+              [-73.8892, 40.8202],
+              [-73.8874, 40.8194]
+            ]]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": { "name": "Cross Bronx trench center" },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [[
+              [-73.8785, 40.8211],
+              [-73.8718, 40.8211],
+              [-73.8708, 40.8228],
+              [-73.8728, 40.8240],
+              [-73.8792, 40.8238],
+              [-73.8800, 40.8222],
+              [-73.8785, 40.8211]
+            ]]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": { "name": "Bruckner trench edge" },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [[
+              [-73.8680, 40.8150],
+              [-73.8613, 40.8147],
+              [-73.8598, 40.8163],
+              [-73.8615, 40.8174],
+              [-73.8679, 40.8171],
+              [-73.8690, 40.8160],
+              [-73.8680, 40.8150]
+            ]]
+          }
+        }
+      ]
+    };
+
+    const studyArea = {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-73.897, 40.814],
+          [-73.849, 40.814],
+          [-73.849, 40.841],
+          [-73.897, 40.841],
+          [-73.897, 40.814]
+        ]]
+      },
+      "properties": {}
+    };
+
+    map.on('style.load', () => {
+      map.addSource('mapbox-dem', {
+        type: 'raster-dem',
+        url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
+        tileSize: 512,
+        maxzoom: 14
+      });
+
+      map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.8 });
+
+      map.addLayer({
+        id: 'sky',
+        type: 'sky',
+        paint: {
+          'sky-type': 'atmosphere',
+          'sky-atmosphere-sun': [0.0, 0.0],
+          'sky-atmosphere-sun-intensity': 10
+        }
+      });
+
+      map.addSource('study-area', {
+        type: 'geojson',
+        data: studyArea
+      });
+
+      map.addLayer({
+        id: 'study-area-fill',
+        type: 'fill',
+        source: 'study-area',
+        paint: {
+          'fill-color': '#f6f1df',
+          'fill-opacity': 0.08
+        }
+      });
+
+      map.addSource('bronx-river', {
+        type: 'geojson',
+        data: bronxRiverLine
+      });
+
+      map.addLayer({
+        id: 'bronx-river-wide',
+        type: 'line',
+        source: 'bronx-river',
+        layout: {
+          'line-join': 'round',
+          'line-cap': 'round'
+        },
+        paint: {
+          'line-color': '#1f5e93',
+          'line-width': 18,
+          'line-opacity': 0.9
+        }
+      });
+
+      map.addLayer({
+        id: 'bronx-river-highlight',
+        type: 'line',
+        source: 'bronx-river',
+        layout: {
+          'line-join': 'round',
+          'line-cap': 'round'
+        },
+        paint: {
+          'line-color': '#69b7ea',
+          'line-width': 8,
+          'line-opacity': 0.95
+        }
+      });
+
+      map.addSource('trench-areas', {
+        type: 'geojson',
+        data: trenchAreas
+      });
+
+      map.addLayer({
+        id: 'trench-fill',
+        type: 'fill-extrusion',
+        source: 'trench-areas',
+        paint: {
+          'fill-extrusion-color': '#214664',
+          'fill-extrusion-height': 20,
+          'fill-extrusion-base': 0,
+          'fill-extrusion-opacity': 0.72
+        }
+      });
+
+      map.addLayer({
+        id: 'trench-outline',
+        type: 'line',
+        source: 'trench-areas',
+        paint: {
+          'line-color': '#d4a31f',
+          'line-width': 3,
+          'line-dasharray': [2, 2]
+        }
+      });
+
+      const roadLayers = ['road-primary', 'road-secondary-tertiary', 'bridge-primary-secondary-tertiary'];
+      roadLayers.forEach(id => {
+        if (map.getLayer(id)) {
+          map.setPaintProperty(id, 'line-color', '#f4d48c');
+        }
+      });
+
+      places.forEach(place => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'marker-wrap';
+
+        const pin = document.createElement('div');
+        pin.className = 'pin';
+
+        const label = document.createElement('div');
+        label.className = 'label';
+        label.textContent = place.name;
+
+        wrapper.appendChild(pin);
+        wrapper.appendChild(label);
+
+        new mapboxgl.Marker({ element: wrapper, anchor: 'bottom-left' })
+          .setLngLat(place.coords)
+          .setPopup(new mapboxgl.Popup({ offset: 20 }).setText(place.name))
+          .addTo(map);
+      });
+
+      map.flyTo({
+        center: [-73.8765, 40.8265],
+        zoom: 12.8,
+        pitch: 74,
+        bearing: -38,
+        speed: 0.35,
+        curve: 1.25,
+        essential: true
+      });
+    });
+
+    map.addControl(new mapboxgl.NavigationControl(), 'top-right');
+    map.addControl(new mapboxgl.ScaleControl({ maxWidth: 120, unit: 'imperial' }));
+  </script>
+</body>
+</html>

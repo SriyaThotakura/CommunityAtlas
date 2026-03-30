@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>South Bronx Community Atlas</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js"></script>
+    <script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-hexbin@0.2/build/d3-hexbin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+    <script src="map_community_mapbox.js"></script>
+    <style>
+        body { margin: 0; padding: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+        .title-card {
+            position: absolute; top: 20px; left: 20px;
+            background: rgba(255,255,255,0.95); padding: 25px;
+            border-radius: 12px; box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+            z-index: 1; max-width: 320px; border: 1px solid #ccc;
+        }
+        .title-card h2 { margin-top: 0; color: #333; font-weight: 700; }
+        .title-card p { color: #555; line-height: 1.5; font-size: 14px; }
+        .title-card ul { padding-left: 20px; color: #555; margin-bottom: 0; font-size: 13px;}
+        .title-card li { margin-bottom: 5px; }
+        .pin-list-header { font-weight: bold; color: #d32f2f; margin-top: 15px; margin-bottom: 8px;}
+        .legend {
+            position: absolute; bottom: 20px; right: 20px;
+            background: rgba(255,255,255,0.95); padding: 15px;
+            border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 1; font-size: 12px;
+        }
+        .legend-item { display: flex; align-items: center; margin-bottom: 8px; }
+        .legend-color { width: 20px; height: 4px; margin-right: 10px; border-radius: 2px; }
+        .legend-label { font-weight: 600; color: #333; }
+        
+        /* Custom popup styles for images */
+        .mapboxgl-popup-content {
+            padding: 12px !important;
+            border-radius: 8px !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+        }
+        .mapboxgl-popup-content strong {
+            display: block;
+            margin-bottom: 8px;
+            color: #1a2332;
+            font-size: 14px;
+        }
+        .mapboxgl-popup-content img {
+            border-radius: 6px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease;
+        }
+        .mapboxgl-popup-content img:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body>
+
+<div class="title-card">
+    <h2>South Bronx Community Atlas</h2>
+    <p>Mapping infrastructural scar and community conflicts around the Cross Bronx Expressway.</p>
+    <div class="pin-list-header">Infrastructural Conflict Pins:</div>
+    <ul>
+        <li>Bronx River (conflict point)</li>
+        <li>Starlight Park</li>
+        <li>Concrete Plant Park</li>
+        <li>Concrete Plant (site)</li>
+        <li>1244 Manor Ave (YMPJ office)</li>
+        <li>Sheridan Blvd</li>
+        <li>Bronx River Houses</li>
+        <li>West Farms Bus Depot</li>
+        <li>Bruckner Expressway (interchange)</li>
+        <li>Sound View Park</li>
+    </ul>
+</div>
+
+<div id="map"></div>
+
+<div class="legend">
+    <div class="legend-item">
+        <div class="legend-color" style="background: #4CAF50;"></div>
+        <div class="legend-label">Above Ground Expressway</div>
+    </div>
+    <div class="legend-item">
+        <div class="legend-color" style="background: #D32F2F; border: 2px dashed #D32F2F; height: 2px;"></div>
+        <div class="legend-label">Below Ground/Trench (Housing Level)</div>
+    </div>
+    <div class="legend-item">
+        <div class="legend-color" style="background: #1a2332;"></div>
+        <div class="legend-label">3D Trench Zones</div>
+    </div>
+    <div class="legend-item">
+        <div class="legend-color" style="background: #FF9800;"></div>
+        <div class="legend-label">Trench Outlines</div>
+    </div>
+    <div class="legend-item">
+        <div class="legend-color" style="background: #2196F3; width: 12px; height: 12px; border-radius: 50%; border: 2px solid white;"></div>
+        <div class="legend-label">Photo Locations (Click to view)</div>
+    </div>
+    <div class="legend-item">
+        <div class="legend-color" style="background: #E53935; width: 10px; height: 10px; border-radius: 50%; border: 2px solid white;"></div>
+        <div class="legend-label">Location Markers</div>
+    </div>
+</div>
+
+<script>
+    // PASTE YOUR MAPBOX DEFAULT PUBLIC TOKEN HERE
+    mapboxgl.accessToken = 'pk.eyJ1Ijoic3JpeWF0aG90YWt1cmEiLCJhIjoiY21kYzhuMG1hMTVrbjJpcHpnZ3Awdjc1dCJ9.bEGwdPmOH5kVaT9RWduC5Q';
+
+    const map = new mapboxgl.Map({
+        container: 'map',
+        // Custom illustrator-style map with terrain
+        style: 'mapbox://styles/mapbox/light-v11',
+        center: [-73.88, 40.835], // Centered on the conflict areas
+        zoom: 13.7, // Adjust to see all pins and route
+        pitch: 60, // Isometric view
+        bearing: -30, // Angled perspective for illustrator style
+        antialias: true
+    });
+
+    map.on('load', () => {
+        // 1. Add 3D Terrain (Exaggerated relief for stylized map look)
+        map.addSource('mapbox-dem', {
+            'type': 'raster-dem',
+            'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
+            'tileSize': 512,
+            'maxzoom': 14
+        });
+        map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.8 });
+
+        // 2. Add Sky for illustrator-style atmosphere
+        map.addLayer({
+            'id': 'sky',
+            'type': 'sky',
+            'paint': { 
+                'sky-type': 'atmosphere',
+                'sky-atmosphere-color': '#87CEEB',
+                'sky-atmosphere-haze': 0.8
+            }
+        });
+
+        // 3. Add illustrator-style terrain coloring
+        // Add custom terrain layers for stylized appearance
+        map.addLayer({
+            'id': 'terrain-hillshade',
+            'type': 'hillshade',
+            'source': 'mapbox-dem',
+            'paint': {
+                'hillshade-exaggeration': 1,
+                'hillshade-shadow-color': 'rgba(100, 100, 150, 0.4)',
+                'hillshade-highlight-color': 'rgba(255, 255, 200, 0.2)'
+            }
+        });
+
+        // 4. Add water bodies with illustrator style
+        map.addLayer({
+            'id': 'water-stylized',
+            'type': 'fill',
+            'source': 'composite',
+            'source-layer': 'water',
+            'filter': ['==', '$type', 'Polygon'],
+            'paint': {
+                'fill-color': '#4A90E2',
+                'fill-opacity': 0.7
+            }
+        });
+
+        // 5. Add parks and green spaces with illustrator style
+        map.addLayer({
+            'id': 'parks-stylized',
+            'type': 'fill',
+            'source': 'composite',
+            'source-layer': 'landuse',
+            'filter': ['==', 'class', 'park'],
+            'paint': {
+                'fill-color': '#7CB342',
+                'fill-opacity': 0.6
+            }
+        });
+
+        // --- Cross Bronx Expressway Route Data ---
+        // Above-ground sections
+        const crossBronxAboveGround = {
+            'type': 'geojson',
+            'data': {
+                'type': 'Feature',
+                'properties': { 'level': 'above' },
+                'geometry': {
+                    'type': 'LineString',
+                    'coordinates': [
+                        [-73.927, 40.845], // Alexander Hamilton Bridge (above)
+                        [-73.910, 40.844], // Jerome Ave (above)
+                        [-73.895, 40.842]  // Approaching trench area
+                    ]
+                }
+            }
+        };
+
+        // Below-ground/trench sections that cut below housing level
+        const crossBronxBelowGround = {
+            'type': 'geojson',
+            'data': {
+                'type': 'Feature',
+                'properties': { 'level': 'below' },
+                'geometry': {
+                    'type': 'LineString',
+                    'coordinates': [
+                        [-73.895, 40.842], // Entry to trench
+                        [-73.890, 40.840], // Crotona Park area (trench)
+                        [-73.876, 40.835], // Bronx River Pkwy (trench)
+                        [-73.865, 40.832]  // Exit trench near housing
+                    ]
+                }
+            }
+        };
+
+        // Above-ground section after trench
+        const crossBronxAboveGround2 = {
+            'type': 'geojson',
+            'data': {
+                'type': 'Feature',
+                'properties': { 'level': 'above' },
+                'geometry': {
+                    'type': 'LineString',
+                    'coordinates': [
+                        [-73.865, 40.832], // Exit trench
+                        [-73.850, 40.828]  // Bruckner Interchange (above)
+                    ]
+                }
+            }
+        };
+
+        // Trench areas (below housing level) with 3D extrusion
+        const trenchZones = {
+            'type': 'geojson',
+            'data': {
+                'type': 'FeatureCollection',
+                'features': [
+                    {
+                        'type': 'Feature',
+                        'properties': { 'name': 'Cross Bronx Trench - West Section' },
+                        'geometry': {
+                            'type': 'Polygon',
+                            'coordinates': [[
+                                [-73.898, 40.843],
+                                [-73.885, 40.8435],
+                                [-73.883, 40.839],
+                                [-73.896, 40.8385],
+                                [-73.898, 40.843]
+                            ]]
+                        }
+                    },
+                    {
+                        'type': 'Feature',
+                        'properties': { 'name': 'Cross Bronx Trench - Central Section' },
+                        'geometry': {
+                            'type': 'Polygon',
+                            'coordinates': [[
+                                [-73.885, 40.8435],
+                                [-73.868, 40.8355],
+                                [-73.866, 40.831],
+                                [-73.883, 40.839],
+                                [-73.885, 40.8435]
+                            ]]
+                        }
+                    },
+                    {
+                        'type': 'Feature',
+                        'properties': { 'name': 'Cross Bronx Trench - East Section' },
+                        'geometry': {
+                            'type': 'Polygon',
+                            'coordinates': [[
+                                [-73.868, 40.8355],
+                                [-73.860, 40.833],
+                                [-73.858, 40.829],
+                                [-73.866, 40.831],
+                                [-73.868, 40.8355]
+                            ]]
+                        }
+                    }
+                ]
+            }
+        };
+
+        // 6. Add Route Source
+        map.addSource('cross-bronx-above-ground', crossBronxAboveGround);
+        map.addSource('cross-bronx-below-ground', crossBronxBelowGround);
+        map.addSource('cross-bronx-above-ground-2', crossBronxAboveGround2);
+        map.addSource('trench-zones', trenchZones);
+
+        // 7. Add 3D Trench Zones (below housing level)
+        map.addLayer({
+            'id': 'trench-zones-3d',
+            'type': 'fill-extrusion',
+            'source': 'trench-zones',
+            'paint': {
+                'fill-extrusion-color': '#1a2332',
+                'fill-extrusion-height': 15, // 15m deep trenches
+                'fill-extrusion-base': 0, // Ground level
+                'fill-extrusion-opacity': 0.8
+            }
+        });
+
+        // 8. Add Above-Ground Sections (elevated)
+        map.addLayer({
+            'id': 'cross-bronx-above-ground-line',
+            'type': 'line',
+            'source': 'cross-bronx-above-ground',
+            'layout': {
+                'line-join': 'round',
+                'line-cap': 'round'
+            },
+            'paint': {
+                'line-color': '#4CAF50', // Green for above ground
+                'line-width': 6,
+                'line-opacity': 0.9
+            }
+        });
+
+        map.addLayer({
+            'id': 'cross-bronx-above-ground-line-2',
+            'type': 'line',
+            'source': 'cross-bronx-above-ground-2',
+            'layout': {
+                'line-join': 'round',
+                'line-cap': 'round'
+            },
+            'paint': {
+                'line-color': '#4CAF50', // Green for above ground
+                'line-width': 6,
+                'line-opacity': 0.9
+            }
+        });
+
+        // 9. Add Below-Ground/Trench Sections
+        map.addLayer({
+            'id': 'cross-bronx-below-ground-line',
+            'type': 'line',
+            'source': 'cross-bronx-below-ground',
+            'layout': {
+                'line-join': 'round',
+                'line-cap': 'round'
+            },
+            'paint': {
+                'line-color': '#D32F2F', // Red for below ground/trench
+                'line-width': 8,
+                'line-dasharray': [3, 2], // Dashed for trench sections
+                'line-opacity': 0.9
+            }
+        });
+
+        // 10. Add Trench Outlines
+        map.addLayer({
+            'id': 'trench-outlines',
+            'type': 'line',
+            'source': 'trench-zones',
+            'paint': {
+                'line-color': '#FF9800', // Orange outline
+                'line-width': 2,
+                'line-dasharray': [2, 1]
+            }
+        });
+
+        // --- Pinned Locations Data (Approximate coordinates) ---
+        const pinnedLocations = {
+            'type': 'geojson',
+            'data': {
+                'type': 'FeatureCollection',
+                'features': [
+                    { 'type': 'Feature', 'properties': { 'name': 'Bronx River (conflict point)', 'image': 'be0ee21c-1f7c-4213-96a0-4f0adc73ffaf.png' }, 'geometry': { 'type': 'Point', 'coordinates': [-73.881, 40.849] } },
+                    { 'type': 'Feature', 'properties': { 'name': 'Starlight Park' }, 'geometry': { 'type': 'Point', 'coordinates': [-73.882, 40.835] } },
+                    { 'type': 'Feature', 'properties': { 'name': 'Concrete Plant Park' }, 'geometry': { 'type': 'Point', 'coordinates': [-73.878, 40.828] } },
+                    { 'type': 'Feature', 'properties': { 'name': 'Concrete Plant (historic site)' }, 'geometry': { 'type': 'Point', 'coordinates': [-73.877, 40.829] } },
+                    { 'type': 'Feature', 'properties': { 'name': '1244 Manor Ave (YMPJ office)' }, 'geometry': { 'type': 'Point', 'coordinates': [-73.876, 40.831] } },
+                    { 'type': 'Feature', 'properties': { 'name': 'Sheridan Blvd' }, 'geometry': { 'type': 'Point', 'coordinates': [-73.884, 40.825] } },
+                    { 'type': 'Feature', 'properties': { 'name': 'Bronx River Houses', 'image': 'bronx river houses.png' }, 'geometry': { 'type': 'Point', 'coordinates': [-73.879, 40.833] } },
+                    { 'type': 'Feature', 'properties': { 'name': 'West Farms Bus Depot' }, 'geometry': { 'type': 'Point', 'coordinates': [-73.875, 40.837] } },
+                    { 'type': 'Feature', 'properties': { 'name': 'Bruckner Expressway (interchange near Soundview)' }, 'geometry': { 'type': 'Point', 'coordinates': [-73.865, 40.815] } },
+                    { 'type': 'Feature', 'properties': { 'name': 'Sound View Park' }, 'geometry': { 'type': 'Point', 'coordinates': [-73.866, 40.810] } },
+                    { 'type': 'Feature', 'properties': { 'name': 'Cross Bronx Service Road N (2225)', 'image': '2225 Cross Bronx Service Road N.png' }, 'geometry': { 'type': 'Point', 'coordinates': [-73.877, 40.830] } },
+                    { 'type': 'Feature', 'properties': { 'name': 'Cross Bronx Service Road N (2241)', 'image': '2241 Cross Bronx Service Road N.png' }, 'geometry': { 'type': 'Point', 'coordinates': [-73.875, 40.828] } },
+                    { 'type': 'Feature', 'properties': { 'name': 'Castle Hill Ave', 'image': 'Castle hill ave.png' }, 'geometry': { 'type': 'Point', 'coordinates': [-73.864, 40.818] } },
+                    { 'type': 'Feature', 'properties': { 'name': 'Rosedale Ave', 'image': 'Rosedale Ave.png' }, 'geometry': { 'type': 'Point', 'coordinates': [-73.872, 40.840] } },
+                    { 'type': 'Feature', 'properties': { 'name': 'Westchester Ave', 'image': 'WestchesterAve.png' }, 'geometry': { 'type': 'Point', 'coordinates': [-73.868, 40.825] } },
+                    { 'type': 'Feature', 'properties': { 'name': 'Westchester Ave (View 2)', 'image': 'WestchesterAve2.png' }, 'geometry': { 'type': 'Point', 'coordinates': [-73.870, 40.827] } },
+                    { 'type': 'Feature', 'properties': { 'name': 'Cross Bronx Tunnel', 'image': 'Tunnel3.png' }, 'geometry': { 'type': 'Point', 'coordinates': [-73.880, 40.838] } }
+                ]
+            }
+        };
+
+        // Separate locations with images from those without
+        const locationsWithImages = {
+            'type': 'geojson',
+            'data': {
+                'type': 'FeatureCollection',
+                'features': pinnedLocations.data.features.filter(feature => feature.properties.image)
+            }
+        };
+
+        const locationsWithoutImages = {
+            'type': 'geojson',
+            'data': {
+                'type': 'FeatureCollection',
+                'features': pinnedLocations.data.features.filter(feature => !feature.properties.image)
+            }
+        };
+
+        // 11. Add Source for Pins
+        map.addSource('pinned-locations', pinnedLocations);
+        map.addSource('locations-with-images', locationsWithImages);
+        map.addSource('locations-without-images', locationsWithoutImages);
+
+        // 12. Add Layer to Display Pins with Images (Blue/Photo pins)
+        map.addLayer({
+            'id': 'location-pins-with-images',
+            'type': 'circle',
+            'source': 'locations-with-images',
+            'paint': {
+                'circle-radius': 10,
+                'circle-color': '#2196F3', // Blue for locations with images
+                'circle-stroke-color': '#FFFFFF',
+                'circle-stroke-width': 3
+            }
+        });
+
+        // 13. Add Layer to Display Pins without Images (Red/Default pins)
+        map.addLayer({
+            'id': 'location-pins-without-images',
+            'type': 'circle',
+            'source': 'locations-without-images',
+            'paint': {
+                'circle-radius': 8,
+                'circle-color': '#E53935', // Red for locations without images
+                'circle-stroke-color': '#FFFFFF',
+                'circle-stroke-width': 2
+            }
+        });
+
+        // 14. Add labels for all pins
+        map.addLayer({
+            'id': 'location-labels',
+            'type': 'symbol',
+            'source': 'pinned-locations',
+            'layout': {
+                'text-field': ['get', 'name'],
+                'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
+                'text-offset': [0, 2.5], // Place name text above the pin
+                'text-anchor': 'top',
+                'text-size': 12,
+                'text-allow-overlap': true
+            },
+            'paint': {
+                'text-color': '#263238', // Dark text for light map
+                'text-halo-color': '#FFFFFF', // White halo for readability
+                'text-halo-width': 2
+            }
+        });
+
+        // 15. Create dynamic popups on click for both pin types
+        const createPopup = (e) => {
+            const coordinates = e.features[0].geometry.coordinates.slice();
+            const locationName = e.features[0].properties.name;
+            const locationImage = e.features[0].properties.image;
+
+            let popupContent = `<strong>${locationName}</strong>`;
+            
+            if (locationImage) {
+                popupContent += `<br><img src="${locationImage}" style="max-width: 300px; max-height: 200px; margin-top: 8px; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.2);" alt="${locationName}">`;
+            }
+
+            new mapboxgl.Popup({
+                maxWidth: '320px',
+                className: 'custom-popup'
+            })
+                .setLngLat(coordinates)
+                .setHTML(popupContent)
+                .addTo(map);
+        };
+
+        // Attach popup events to both pin layers
+        map.on('click', 'location-pins-with-images', createPopup);
+        map.on('click', 'location-pins-without-images', createPopup);
+
+        // Change cursor on hover for both pin types
+        map.on('mouseenter', 'location-pins-with-images', () => {
+            map.getCanvas().style.cursor = 'pointer';
+        });
+        map.on('mouseleave', 'location-pins-with-images', () => {
+            map.getCanvas().style.cursor = '';
+        });
+        map.on('mouseenter', 'location-pins-without-images', () => {
+            map.getCanvas().style.cursor = 'pointer';
+        });
+        map.on('mouseleave', 'location-pins-without-images', () => {
+            map.getCanvas().style.cursor = '';
+        });
+
+        // Add standard navigation controls
+        map.addControl(new mapboxgl.NavigationControl());
+
+        // Initialize community layers - wait for all map resources to load
+        map.on('idle', () => {
+            console.log('Map is idle, initializing community layers...');
+            console.log('initCommunityLayers function exists:', typeof initCommunityLayers);
+            
+            if (typeof initCommunityLayers === 'function') {
+                console.log('Calling initCommunityLayers with paths:', {
+                    nodesPath: 'south-bronx-map/data/community_nodes.geojson',
+                    s311Path: 'south-bronx-map/data/complaints_311.geojson',
+                    floodPath: 'south-bronx-map/data/floodnet_sensors.geojson'
+                });
+                
+                initCommunityLayers(map, {
+                    nodesPath: 'south-bronx-map/data/community_nodes.geojson',
+                    s311Path: 'south-bronx-map/data/complaints_311.geojson',
+                    floodPath: 'south-bronx-map/data/floodnet_sensors.geojson'
+                });
+            } else {
+                console.error('initCommunityLayers function not found. Available window functions:', Object.keys(window).filter(k => k.includes('init')));
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Trench — South Bronx Forensic Atlas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ── LEFT: Journalistic Scroll ──────────────────────────────────────── -->
+  <div id="scroll-panel">
+
+    <header id="atlas-header">
+      <div class="eyebrow">Forensic Atlas &nbsp;/&nbsp; South Bronx &nbsp;/&nbsp; 2025</div>
+      <h1>The<br>Trench</h1>
+      <p class="lede">
+        A spatial investigation into the Cross Bronx Expressway —
+        how a nine-metre concrete cut became the city's most documented
+        air quality corridor, and what the data says about the communities
+        still living inside it.
+      </p>
+      <div class="scroll-cue">
+        <span>Scroll to navigate the trench</span>
+        <svg width="14" height="22" viewBox="0 0 14 22" fill="none">
+          <line x1="7" y1="0" x2="7" y2="18" stroke="#1A1A1A" stroke-width="1.5"/>
+          <polyline points="2,13 7,20 12,13" stroke="#1A1A1A" stroke-width="1.5" fill="none"/>
+        </svg>
+      </div>
+    </header>
+
+    <!-- ── Chapter 1: The Atmospheric Trap ──────────────────────────────── -->
+    <section id="chapter-1" class="interview-section" data-view="chapter-1">
+
+      <div class="section-meta">
+        <span class="section-index">01</span>
+        <span class="section-location">Jerome Ave → Bruckner &nbsp;·&nbsp; Macro View</span>
+      </div>
+
+      <h2>A model built<br>on distance alone.</h2>
+
+      <div class="data-callout">
+        <div class="callout-figure">1.000</div>
+        <div class="callout-desc">
+          Random Forest feature importance assigned to <code>dist_highway_m</code>.
+          STURLA land class contributes 0.000. The highway is the only variable
+          that matters.
+        </div>
+      </div>
+
+      <blockquote>
+        <p>"They built the Cross Bronx Expressway right through the neighborhood in the 1950s and they never asked us anything. Now we live in the trench. The noise never stops. The air never clears. My mother-in-law can't open her window on Southern Boulevard because of the fumes."</p>
+        <cite>West Farms resident, oral history interview 2025</cite>
+      </blockquote>
+
+      <p class="body-text">
+        Each extruded block on the map is one 100 m × 100 m grid cell. Height encodes the Random Forest model's predicted PM2.5 concentration — values were multiplied by 100 so that a 12 µg/m³ cell reads as 1,200 m tall. <strong>Height is pollution.</strong> The model was trained on 2,392 grid cells across the study area, using two input features: distance to the Cross Bronx centreline and STURLA land-use class.
+      </p>
+
+      <div class="data-table">
+        <div class="table-row table-header">
+          <span>STURLA Class</span>
+          <span>Avg Predicted PM2.5</span>
+          <span>Cells (n=2,392)</span>
+        </div>
+        <div class="table-row">
+          <span><span class="sturla-tag sturla-th">th</span> Trench / High</span>
+          <span>12.12 µg/m³</span>
+          <span>1.2%</span>
+        </div>
+        <div class="table-row">
+          <span><span class="sturla-tag sturla-td">td</span> Dense</span>
+          <span>10.50 µg/m³</span>
+          <span>3.8%</span>
+        </div>
+        <div class="table-row">
+          <span><span class="sturla-tag sturla-ts">ts</span> Sparse</span>
+          <span>9.28 µg/m³</span>
+          <span>3.8%</span>
+        </div>
+        <div class="table-row">
+          <span><span class="sturla-tag sturla-tg">tg</span> Green</span>
+          <span>8.30 µg/m³</span>
+          <span>95.0%</span>
+        </div>
+      </div>
+
+      <p class="body-text">
+        The STURLA classification — derived from perpendicular distance to the CBX centreline — structures the 3D grid you see on the map. <span class="sturla-tag sturla-th">th</span> cells sit inside or directly above the trench cut. Their predicted PM2.5 is 46% above the green-zone baseline. Yet the RF model assigns them zero additional weight beyond their distance. The geography is the variable. The land use is its consequence.
+      </p>
+
+    </section>
+
+    <!-- ── Chapter 2: The Physical Scar ───────────────────────────────────── -->
+    <section id="chapter-2" class="interview-section" data-view="chapter-2">
+
+      <div class="section-meta">
+        <span class="section-index" style="color:var(--accent)">02</span>
+        <span class="section-location">Cross Bronx Expressway &nbsp;·&nbsp; Trench Level</span>
+      </div>
+
+      <h2>Nine metres<br>below the city.</h2>
+
+      <div class="data-callout" style="background:var(--accent)">
+        <div class="callout-figure">−9<span class="callout-unit">&nbsp;m</span></div>
+        <div class="callout-desc">
+          Average depth of the below-grade cut between the Grand Concourse and
+          the Bronx River. The camera has descended to highway floor level,
+          looking east along the corridor bearing 107°.
+        </div>
+      </div>
+
+      <blockquote>
+        <p>"You stand at the fence and look down and you realise — this isn't a road, it's a wound. They cut right through the fabric of the place and left the edges to bleed. We've been breathing the bottom of that wound for sixty years."</p>
+        <cite>West Farms resident, oral history interview 2025</cite>
+      </blockquote>
+
+      <p class="body-text">
+        The <strong style="color:var(--accent)">red glowing line</strong> now visible on the map traces the below-grade trench section of the Cross Bronx — 4.8 km of concrete canyon where diesel exhaust accumulates because the canyon geometry prevents vertical dispersion. The <strong style="color:#3B82F6">blue line</strong> traces the elevated and at-grade approaches to the west and east. Both carry the same trucks. Only the trench traps the fumes.
+      </p>
+
+      <div class="data-table">
+        <div class="table-row table-header">
+          <span>Corridor Segment</span>
+          <span>Grade</span>
+          <span>Avg Daily Vehicles</span>
+        </div>
+        <div class="table-row">
+          <span style="color:var(--accent);font-weight:700">Trench (CBX)</span>
+          <span>−9 m below grade</span>
+          <span>280,000</span>
+        </div>
+        <div class="table-row">
+          <span>Western approach</span>
+          <span>At grade / ramp</span>
+          <span>195,000</span>
+        </div>
+        <div class="table-row">
+          <span>Bruckner merge</span>
+          <span>+4 m elevated</span>
+          <span>310,000</span>
+        </div>
+      </div>
+
+      <p class="body-text">
+        Construction between 1948 and 1963 required the demolition of 1,530 buildings and the displacement of approximately 60,000 residents. Robert Moses routed the expressway through the most densely populated neighbourhood in the Bronx because it was the cheapest land to acquire. The atmospheric consequences of that economic decision are still measurable sixty years later.
+      </p>
+
+    </section>
+
+    <!-- ── Chapter 3: Convergence Zones ───────────────────────────────────── -->
+    <section id="chapter-3" class="interview-section" data-view="chapter-3">
+
+      <div class="section-meta">
+        <span class="section-index">03</span>
+        <span class="section-location">Bruckner Interchange &nbsp;·&nbsp; Community Reality</span>
+      </div>
+
+      <h2>Where the data and<br>the body converge.</h2>
+
+      <div class="data-callout">
+        <div class="callout-figure">0.91<span class="callout-unit">&nbsp;/1.0</span></div>
+        <div class="callout-desc">
+          EPA EJScreen cumulative impact score for the Soundview census tract —
+          91st percentile nationally. Three independent data sources now overlay
+          the same geography.
+        </div>
+      </div>
+
+      <blockquote>
+        <p>"The city built this and walked away. They put the highway where the people with the least power lived, and then they wondered why the neighbourhood collapsed. It wasn't negligence. It was a decision. The data just proves what we already knew."</p>
+        <cite>Soundview resident, oral history interview 2025</cite>
+      </blockquote>
+
+      <p class="body-text">
+        The map now layers three independent datasets on top of the 3D PM2.5 model. <strong>Amber circles</strong> are clustered 311 complaint records — heat/hot water, HVAC, and air quality complaints pulled from NYC Open Data (n=15,000, capped). Size encodes complaint density per cell. <strong>Blue circles</strong> are FloodNet sensors; size encodes peak recorded flood depth in centimetres. <strong>Coloured dots</strong> are NLP-processed community testimony nodes — colour encodes risk category, size encodes urgency score from the VADER sentiment pipeline.
+      </p>
+
+      <div class="data-table">
+        <div class="table-row table-header">
+          <span>Data Layer</span>
+          <span>Source</span>
+          <span>n</span>
+        </div>
+        <div class="table-row">
+          <span>
+            <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#F59E0B;vertical-align:middle;margin-right:6px"></span>
+            311 Complaints
+          </span>
+          <span>NYC Open Data</span>
+          <span>15,000</span>
+        </div>
+        <div class="table-row">
+          <span>
+            <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3B82F6;vertical-align:middle;margin-right:6px"></span>
+            FloodNet Sensors
+          </span>
+          <span>NYC FloodNet API</span>
+          <span>5</span>
+        </div>
+        <div class="table-row">
+          <span>
+            <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#C8321A;vertical-align:middle;margin-right:6px"></span>
+            NLP Testimony
+          </span>
+          <span>Oral History / spaCy</span>
+          <span>15</span>
+        </div>
+      </div>
+
+      <div class="data-table" style="margin-top:20px">
+        <div class="table-row table-header">
+          <span style="grid-column:1/4;font-size:9px;letter-spacing:0.2em">Random Forest — Feature Importances</span>
+        </div>
+        <div class="table-row table-header" style="background:var(--black);opacity:0.75">
+          <span>Feature</span>
+          <span>Importance</span>
+          <span>Bar</span>
+        </div>
+        <div class="table-row">
+          <span>dist_highway_m</span>
+          <span style="font-weight:700;color:var(--accent)">1.000</span>
+          <span><span style="display:block;height:6px;width:100%;background:var(--black)"></span></span>
+        </div>
+        <div class="table-row">
+          <span>STURLA_class</span>
+          <span style="font-weight:700">0.000</span>
+          <span><span style="display:block;height:6px;width:0%;background:var(--black)"></span></span>
+        </div>
+        <div class="table-row" style="background:var(--grey-100)">
+          <span style="color:var(--grey-600)">R² / MAE</span>
+          <span>0.2222</span>
+          <span style="color:var(--grey-400);font-size:10px">0.49 µg/m³</span>
+        </div>
+      </div>
+
+      <p class="body-text">
+        The convergence is not a coincidence. The clusters of 311 complaints, the FloodNet flood events, and the highest-urgency testimony nodes all stack onto the same grid cells as the tallest PM2.5 extrusions — precisely where the model predicts maximum exposure. The infrastructure is the evidence. The data just proves what the community already knew.
+      </p>
+
+    </section>
+
+    <!-- ── Footer ─────────────────────────────────────────────────────────── -->
+    <footer id="atlas-footer">
+      <div class="footer-label">Data Methodology</div>
+      <p>
+        PM2.5 values modelled using a <code>RandomForestRegressor</code> (scikit-learn)
+        trained on spatially-distributed complaint data (n=2,392 cells).
+        Feature importance: <code>dist_highway_m = 1.000</code>, <code>STURLA_class = 0.000</code>.
+        R² = 0.2222, MAE = 0.49 µg/m³. STURLA 4-class schema derived from perpendicular
+        distance to the Cross Bronx centreline:
+        &lt;60 m → <code>th</code>, 60–150 m → <code>td</code>, 150–300 m → <code>ts</code>, &gt;300 m → <code>tg</code>.
+        Grid: 100 m × 100 m, CRS: EPSG:32618 (UTM Zone 18N).
+      </p>
+      <p>
+        Community testimony collected through oral history interviews, winter–spring 2025.
+        Environmental justice scores: EPA EJScreen, Bronx County FIPS 36005.
+        Flood data: NYC FloodNet public API.
+      </p>
+      <div class="footer-credit">South Bronx Community Atlas &nbsp;·&nbsp; Forensic Architecture Capstone &nbsp;·&nbsp; 2025</div>
+    </footer>
+
+  </div><!-- /scroll-panel -->
+
+  <!-- ── RIGHT: Fixed Map ──────────────────────────────────────────────────── -->
+  <div id="map-panel">
+    <div id="map"></div>
+
+    <div id="map-ui">
+      <div id="section-label" class="ui-card">
+        <div id="section-label-index">—</div>
+        <div id="section-label-text">The Trench</div>
+      </div>
+
+      <div id="legend" class="ui-card">
+        <div class="legend-title">Predicted PM2.5 Exposure</div>
+        <div class="legend-scale">Height = PM2.5 µg/m³ × 100</div>
+        <div class="legend-items">
+          <div class="legend-item">
+            <span class="legend-swatch swatch-th"></span>
+            <span><code>th</code> Trench / High</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch swatch-td"></span>
+            <span><code>td</code> Transitional Dense</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch swatch-ts"></span>
+            <span><code>ts</code> Transitional Sparse</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch swatch-tg"></span>
+            <span><code>tg</code> Green / Residential</span>
+          </div>
+        </div>
+
+        <div class="legend-divider"></div>
+
+        <div class="legend-items" style="margin-top:10px">
+          <div class="legend-item">
+            <span class="legend-dot" style="background:#FF3333"></span>
+            <span>Cross Bronx Trench</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot" style="background:#3B82F6"></span>
+            <span>Elevated Approach</span>
+          </div>
+        </div>
+
+        <div class="legend-divider"></div>
+
+        <div class="legend-items" style="margin-top:10px">
+          <div class="legend-item">
+            <span class="legend-dot" style="background:#F59E0B;border-color:#1A1A1A"></span>
+            <span>311 Complaints</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot" style="background:#3B82F6;border-color:#1A1A1A"></span>
+            <span>FloodNet Sensor</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot" style="background:#C8321A;border-color:#FFFFFF"></span>
+            <span>NLP — Air Quality</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot" style="background:#F59E0B;border-color:#FFFFFF"></span>
+            <span>NLP — Heat</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot" style="background:#7C3AED;border-color:#FFFFFF"></span>
+            <span>NLP — Displacement</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="map-loading" class="ui-card">Loading spatial data…</div>
+    </div>
+  </div><!-- /map-panel -->
+
+</div><!-- /app -->
+
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

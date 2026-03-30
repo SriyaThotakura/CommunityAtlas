@@ -1,0 +1,62 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "diorama_mask",
+        "fill_hint": "#F9F9F9",
+        "note": "Exterior CCW (world), interior CW (South Bronx hole). RFC 7946 compliant."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -180.0,
+              -90.0
+            ],
+            [
+              180.0,
+              -90.0
+            ],
+            [
+              180.0,
+              90.0
+            ],
+            [
+              -180.0,
+              90.0
+            ],
+            [
+              -180.0,
+              -90.0
+            ]
+          ],
+          [
+            [
+              -73.93,
+              40.8
+            ],
+            [
+              -73.93,
+              40.85
+            ],
+            [
+              -73.85,
+              40.85
+            ],
+            [
+              -73.85,
+              40.8
+            ],
+            [
+              -73.93,
+              40.8
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,216 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -73.895,
+              40.806
+            ],
+            [
+              -73.879,
+              40.806
+            ],
+            [
+              -73.879,
+              40.822
+            ],
+            [
+              -73.895,
+              40.822
+            ],
+            [
+              -73.895,
+              40.806
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "type": "ejscreen",
+        "tract_id": "36005024900",
+        "cancer_pctile": 86.5,
+        "resp_pctile": 83.7,
+        "wastewater_pctile": 71.0,
+        "traffic_pctile": 90.1,
+        "pm25_pctile": 80.1,
+        "cumulative_impact_score": 0.91,
+        "source": "placeholder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -73.905,
+              40.814
+            ],
+            [
+              -73.88900000000001,
+              40.814
+            ],
+            [
+              -73.88900000000001,
+              40.830000000000005
+            ],
+            [
+              -73.905,
+              40.830000000000005
+            ],
+            [
+              -73.905,
+              40.814
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "type": "ejscreen",
+        "tract_id": "36005025100",
+        "cancer_pctile": 83.6,
+        "resp_pctile": 81.0,
+        "wastewater_pctile": 68.6,
+        "traffic_pctile": 87.1,
+        "pm25_pctile": 77.4,
+        "cumulative_impact_score": 0.88,
+        "source": "placeholder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -73.895,
+              40.832
+            ],
+            [
+              -73.879,
+              40.832
+            ],
+            [
+              -73.879,
+              40.848000000000006
+            ],
+            [
+              -73.895,
+              40.848000000000006
+            ],
+            [
+              -73.895,
+              40.832
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "type": "ejscreen",
+        "tract_id": "36005025900",
+        "cancer_pctile": 75.0,
+        "resp_pctile": 72.7,
+        "wastewater_pctile": 61.6,
+        "traffic_pctile": 78.2,
+        "pm25_pctile": 69.5,
+        "cumulative_impact_score": 0.79,
+        "source": "placeholder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -73.887,
+              40.826
+            ],
+            [
+              -73.87100000000001,
+              40.826
+            ],
+            [
+              -73.87100000000001,
+              40.842000000000006
+            ],
+            [
+              -73.887,
+              40.842000000000006
+            ],
+            [
+              -73.887,
+              40.826
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "type": "ejscreen",
+        "tract_id": "36005026300",
+        "cancer_pctile": 78.8,
+        "resp_pctile": 76.4,
+        "wastewater_pctile": 64.7,
+        "traffic_pctile": 82.2,
+        "pm25_pctile": 73.0,
+        "cumulative_impact_score": 0.83,
+        "source": "placeholder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -73.86999999999999,
+              40.806
+            ],
+            [
+              -73.854,
+              40.806
+            ],
+            [
+              -73.854,
+              40.822
+            ],
+            [
+              -73.86999999999999,
+              40.822
+            ],
+            [
+              -73.86999999999999,
+              40.806
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "type": "ejscreen",
+        "tract_id": "36005026700",
+        "cancer_pctile": 80.8,
+        "resp_pctile": 78.2,
+        "wastewater_pctile": 66.3,
+        "traffic_pctile": 84.1,
+        "pm25_pctile": 74.8,
+        "cumulative_impact_score": 0.85,
+        "source": "placeholder"
+      }
+    }
+  ],
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:4326"
+    }
+  }
+}

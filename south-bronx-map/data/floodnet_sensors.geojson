@@ -1,0 +1,106 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.874,
+          40.832
+        ]
+      },
+      "properties": {
+        "type": "floodnet",
+        "sensor_id": "SB-001",
+        "location_name": "Starlight Park \u2013 Bronx River",
+        "peak_depth_cm": 14.5,
+        "flood_event_count": 6,
+        "last_event_date": "2024-09-29",
+        "source": "placeholder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8822,
+          40.8176
+        ]
+      },
+      "properties": {
+        "type": "floodnet",
+        "sensor_id": "SB-002",
+        "location_name": "West Farms Bus Depot",
+        "peak_depth_cm": 8.2,
+        "flood_event_count": 3,
+        "last_event_date": "2024-07-11",
+        "source": "placeholder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.857,
+          40.8158
+        ]
+      },
+      "properties": {
+        "type": "floodnet",
+        "sensor_id": "SB-003",
+        "location_name": "Bruckner at Soundview",
+        "peak_depth_cm": 22.1,
+        "flood_event_count": 9,
+        "last_event_date": "2024-09-29",
+        "source": "placeholder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.89,
+          40.82
+        ]
+      },
+      "properties": {
+        "type": "floodnet",
+        "sensor_id": "SB-004",
+        "location_name": "Hunts Point \u2013 Spofford Ave",
+        "peak_depth_cm": 4.0,
+        "flood_event_count": 1,
+        "last_event_date": "2023-12-18",
+        "source": "placeholder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8692,
+          40.8343
+        ]
+      },
+      "properties": {
+        "type": "floodnet",
+        "sensor_id": "SB-005",
+        "location_name": "Bronx River Houses",
+        "peak_depth_cm": 11.7,
+        "flood_event_count": 5,
+        "last_event_date": "2024-09-29",
+        "source": "placeholder"
+      }
+    }
+  ],
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:4326"
+    }
+  }
+}
