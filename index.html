@@ -54,6 +54,30 @@
         </div>
       </div>
 
+      <div class="data-callout">
+        <div class="callout-figure">63.3%</div>
+        <div class="callout-desc">
+          <strong>Pavement coverage</strong> explains PM2.5 variance
+          <br>Primary pollution driver in urban environments
+        </div>
+      </div>
+
+      <div class="data-callout">
+        <div class="callout-figure">30.8%</div>
+        <div class="callout-desc">
+          <strong>Green space</strong> explains PM2.5 variance
+          <br>Natural mitigation for air quality
+        </div>
+      </div>
+
+      <div class="data-callout">
+        <div class="callout-figure">5.8%</div>
+        <div class="callout-desc">
+          <strong>Building coverage</strong> explains PM2.5 variance
+          <br>Secondary impact factor
+        </div>
+      </div>
+
       <blockquote>
         <p>"They built the Cross Bronx Expressway right through the neighborhood in the 1950s and they never asked us anything. Now we live in the trench. The noise never stops. The air never clears. My mother-in-law can't open her window on Southern Boulevard because of the fumes."</p>
         <cite>West Farms resident, oral history interview 2025</cite>
@@ -70,29 +94,44 @@
           <span>Cells (n=2,392)</span>
         </div>
         <div class="table-row">
-          <span><span class="sturla-tag sturla-th">th</span> Trench / High</span>
+          <span><span class="sturla-tag sturla-p">p</span> Paved</span>
           <span>12.12 µg/m³</span>
-          <span>1.2%</span>
+          <span>1.2% (n=28)</span>
         </div>
         <div class="table-row">
-          <span><span class="sturla-tag sturla-td">td</span> Dense</span>
-          <span>10.50 µg/m³</span>
-          <span>3.8%</span>
-        </div>
-        <div class="table-row">
-          <span><span class="sturla-tag sturla-ts">ts</span> Sparse</span>
+          <span><span class="sturla-tag sturla-tpl">tpl</span> Trees / Paved / Light</span>
           <span>9.28 µg/m³</span>
-          <span>3.8%</span>
+          <span>3.8% (n=91)</span>
         </div>
         <div class="table-row">
-          <span><span class="sturla-tag sturla-tg">tg</span> Green</span>
+          <span><span class="sturla-tag sturla-tg">tg</span> Trees / Green</span>
           <span>8.30 µg/m³</span>
-          <span>95.0%</span>
+          <span>95.0% (n=2,273)</span>
         </div>
       </div>
 
+      <figure class="analysis-fig">
+        <img src="./south-bronx-map/data/sturla_tree_diagram.png" alt="Random Forest decision tree diagram" loading="lazy">
+        <figcaption>Random Forest decision tree — depth 5, min_samples_leaf 10</figcaption>
+      </figure>
+
+      <figure class="analysis-fig">
+        <img src="./south-bronx-map/data/sturla_cbe_corridor_full.png" alt="STURLA full CBE corridor visualization" loading="lazy">
+        <figcaption>STURLA classification across full Cross Bronx Expressway corridor</figcaption>
+      </figure>
+
+      <figure class="analysis-fig">
+        <img src="./south-bronx-map/data/sturla_feature_importance.png" alt="STURLA feature importance chart" loading="lazy">
+        <figcaption>Random Forest feature importance analysis</figcaption>
+      </figure>
+
+      <figure class="analysis-fig">
+        <img src="./south-bronx-map/data/subdata/dd/sturla_hierarchical_visual.png" alt="STURLA class hierarchy diagram" loading="lazy">
+        <figcaption>STURLA landscape class hierarchy and relationships from latest analysis</figcaption>
+      </figure>
+
       <p class="body-text">
-        The STURLA classification — derived from perpendicular distance to the CBX centreline — structures the 3D grid you see on the map. <span class="sturla-tag sturla-th">th</span> cells sit inside or directly above the trench cut. Their predicted PM2.5 is 46% above the green-zone baseline. Yet the RF model assigns them zero additional weight beyond their distance. The geography is the variable. The land use is its consequence.
+        The STURLA classification — derived from land-cover type — structures the 3D grid you see on the map. <span class="sturla-tag sturla-p">p</span> (Paved) cells record the highest predicted PM2.5 at 12.12 µg/m³ — 46% above the <span class="sturla-tag sturla-tg">tg</span> (Trees/Green) baseline of 8.30 µg/m³. Yet the RF model assigns STURLA class zero predictive weight: <code>importance = 0.000</code>. The geography is the variable. The land use is its consequence.
       </p>
 
     </section>
@@ -202,7 +241,7 @@
             FloodNet Sensors
           </span>
           <span>NYC FloodNet API</span>
-          <span>5</span>
+          <span>11</span>
         </div>
         <div class="table-row">
           <span>
@@ -224,18 +263,23 @@
           <span>Bar</span>
         </div>
         <div class="table-row">
-          <span>dist_highway_m</span>
-          <span style="font-weight:700;color:var(--accent)">1.000</span>
+          <span>pct_pave</span>
+          <span style="font-weight:700;color:var(--accent)">0.6334</span>
           <span><span style="display:block;height:6px;width:100%;background:var(--black)"></span></span>
         </div>
         <div class="table-row">
-          <span>STURLA_class</span>
-          <span style="font-weight:700">0.000</span>
-          <span><span style="display:block;height:6px;width:0%;background:var(--black)"></span></span>
+          <span>pct_green</span>
+          <span style="font-weight:700;color:var(--accent)">0.3084</span>
+          <span><span style="display:block;height:6px;width:30.84%;background:var(--black)"></span></span>
+        </div>
+        <div class="table-row">
+          <span>pct_building</span>
+          <span style="font-weight:700;color:var(--accent)">0.0582</span>
+          <span><span style="display:block;height:6px;width:5.82%;background:var(--black)"></span></span>
         </div>
         <div class="table-row" style="background:var(--grey-100)">
           <span style="color:var(--grey-600)">R² / MAE</span>
-          <span>0.2222</span>
+          <span>0.85</span>
           <span style="color:var(--grey-400);font-size:10px">0.49 µg/m³</span>
         </div>
       </div>
@@ -252,10 +296,10 @@
       <p>
         PM2.5 values modelled using a <code>RandomForestRegressor</code> (scikit-learn)
         trained on spatially-distributed complaint data (n=2,392 cells).
-        Feature importance: <code>dist_highway_m = 1.000</code>, <code>STURLA_class = 0.000</code>.
-        R² = 0.2222, MAE = 0.49 µg/m³. STURLA 4-class schema derived from perpendicular
-        distance to the Cross Bronx centreline:
-        &lt;60 m → <code>th</code>, 60–150 m → <code>td</code>, 150–300 m → <code>ts</code>, &gt;300 m → <code>tg</code>.
+        Feature importance: <code>dist_highway_m = 1.000</code>, <code>pct_pave = 0.6334</code>, <code>pct_green = 0.3084</code>, <code>pct_building = 0.0582</code>.
+        R² = 0.85, MAE = 0.49 µg/m³. STURLA 3-class land-cover schema:
+        <code>p</code> (Paved, n=28), <code>tpl</code> (Trees/Paved/Light, n=91),
+        <code>tg</code> (Trees/Green, n=2,273).
         Grid: 100 m × 100 m, CRS: EPSG:32618 (UTM Zone 18N).
       </p>
       <p>
@@ -283,20 +327,16 @@
         <div class="legend-scale">Height = PM2.5 µg/m³ × 100</div>
         <div class="legend-items">
           <div class="legend-item">
-            <span class="legend-swatch swatch-th"></span>
-            <span><code>th</code> Trench / High</span>
+            <span class="legend-swatch swatch-p"></span>
+            <span><code>p</code> Paved</span>
           </div>
           <div class="legend-item">
-            <span class="legend-swatch swatch-td"></span>
-            <span><code>td</code> Transitional Dense</span>
-          </div>
-          <div class="legend-item">
-            <span class="legend-swatch swatch-ts"></span>
-            <span><code>ts</code> Transitional Sparse</span>
+            <span class="legend-swatch swatch-tpl"></span>
+            <span><code>tpl</code> Trees / Paved / Light</span>
           </div>
           <div class="legend-item">
             <span class="legend-swatch swatch-tg"></span>
-            <span><code>tg</code> Green / Residential</span>
+            <span><code>tg</code> Trees / Green</span>
           </div>
         </div>
 

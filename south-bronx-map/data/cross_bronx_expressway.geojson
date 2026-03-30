@@ -3,96 +3,71 @@
   "name": "cross_bronx_expressway",
   "crs": {
     "type": "name",
-    "properties": {
-      "name": "EPSG:4326"
-    }
+    "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" }
   },
   "features": [
     {
       "type": "Feature",
       "properties": {
-        "name": "Cross Bronx Expressway - Full Bronx Alignment",
-        "type": "mainline"
+        "name": "Cross Bronx Expressway — Trench Section",
+        "zone": "trench",
+        "note": "Below-grade cut, Cedar Ave (Highbridge) → Bronx River Pkwy. ~4.8 km"
       },
       "geometry": {
         "type": "LineString",
         "coordinates": [
-          [-73.9105, 40.8488],
-          [-73.9098, 40.8475],
-          [-73.9072, 40.8462],
-          [-73.9045, 40.8450],
-          [-73.9010, 40.8440],
-          [-73.8980, 40.8428],
-          [-73.8950, 40.8415],
-          [-73.8920, 40.8402],
-          [-73.8890, 40.8390],
-          [-73.8860, 40.8378],
-          [-73.8830, 40.8365],
-          [-73.8800, 40.8352],
-          [-73.8770, 40.8340],
-          [-73.8740, 40.8328],
-          [-73.8710, 40.8315],
-          [-73.8680, 40.8302],
-          [-73.8650, 40.8290],
-          [-73.8620, 40.8278],
-          [-73.8590, 40.8265],
-          [-73.8565, 40.8252],
-          [-73.8540, 40.8240],
-          [-73.8515, 40.8228],
-          [-73.8490, 40.8215]
+          [-73.9218, 40.8455],
+          [-73.9160, 40.8451],
+          [-73.9098, 40.8447],
+          [-73.9042, 40.8444],
+          [-73.8990, 40.8441],
+          [-73.8960, 40.8439],
+          [-73.8922, 40.8436],
+          [-73.8882, 40.8433],
+          [-73.8845, 40.8430],
+          [-73.8808, 40.8427],
+          [-73.8770, 40.8423],
+          [-73.8733, 40.8419],
+          [-73.8695, 40.8414],
+          [-73.8655, 40.8409]
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "name": "Cross Bronx Expressway - Trench Section (West Bronx)",
-        "zone": "trench"
+        "name": "Cross Bronx Expressway — Western Elevated Approach",
+        "zone": "elevated",
+        "note": "At-grade and elevated from Trans-Manhattan / GWB to trench start at Cedar Ave"
       },
       "geometry": {
         "type": "LineString",
         "coordinates": [
-          [-73.9045, 40.8450],
-          [-73.9010, 40.8440],
-          [-73.8980, 40.8428],
-          [-73.8950, 40.8415],
-          [-73.8920, 40.8402],
-          [-73.8890, 40.8390],
-          [-73.8860, 40.8378],
-          [-73.8830, 40.8365],
-          [-73.8800, 40.8352],
-          [-73.8770, 40.8340]
+          [-73.9328, 40.8490],
+          [-73.9292, 40.8480],
+          [-73.9262, 40.8470],
+          [-73.9240, 40.8462],
+          [-73.9218, 40.8455]
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "name": "Cross Bronx Expressway - Elevated Sections",
-        "zone": "elevated"
+        "name": "Cross Bronx Expressway — Eastern Elevated Approach",
+        "zone": "elevated",
+        "note": "Elevated from Bronx River Pkwy to Bruckner Interchange (I-95 / I-278)"
       },
       "geometry": {
-        "type": "MultiLineString",
+        "type": "LineString",
         "coordinates": [
-          [
-            [-73.9105, 40.8488],
-            [-73.9098, 40.8475],
-            [-73.9072, 40.8462],
-            [-73.9045, 40.8450]
-          ],
-          [
-            [-73.8770, 40.8340],
-            [-73.8740, 40.8328],
-            [-73.8710, 40.8315],
-            [-73.8680, 40.8302],
-            [-73.8650, 40.8290],
-            [-73.8620, 40.8278],
-            [-73.8590, 40.8265],
-            [-73.8565, 40.8252],
-            [-73.8540, 40.8240],
-            [-73.8515, 40.8228],
-            [-73.8490, 40.8215]
-          ]
+          [-73.8655, 40.8409],
+          [-73.8614, 40.8399],
+          [-73.8573, 40.8385],
+          [-73.8534, 40.8368],
+          [-73.8498, 40.8348],
+          [-73.8466, 40.8322],
+          [-73.8445, 40.8293]
         ]
       }
     }

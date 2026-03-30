@@ -1,19 +1,16 @@
 {
   "feature_importances": {
-    "STURLA_class_encoded": 0.0,
-    "dist_highway_m": 1.0
+    "pct_pave": 0.6334,
+    "pct_green": 0.3084,
+    "pct_building": 0.0582
   },
-  "r2_score": 0.2222,
-  "mae_ug_m3": 0.4908,
-  "sturla_label_encoding": {
-    "p": 0,
-    "tg": 1,
-    "tpl": 2
-  },
+  "r2_score": 1.0,
+  "mae_ug_m3": 0.0001,
+  "sturla_label_encoding": {},
   "model_params": {
     "max_depth": 5,
     "min_samples_leaf": 10,
-    "n_features": 2,
-    "n_cells": 2392
+    "n_features": 3,
+    "n_cells": 41500
   }
 }

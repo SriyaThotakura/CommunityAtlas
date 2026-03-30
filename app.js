@@ -1,12 +1,13 @@
 // ── CONFIGURATION ─────────────────────────────────────────────────────────────
 const MAPBOX_TOKEN   = 'pk.eyJ1Ijoic3JpeWF0aG90YWt1cmEiLCJhIjoiY21kYzhuMG1hMTVrbjJpcHpnZ3Awdjc1dCJ9.bEGwdPmOH5kVaT9RWduC5Q';
 const MAP_STYLE      = 'mapbox://styles/sriyathotakura/cmnbydkcb000401qw67z5gm5x'; // PASTE CUSTOM STUDIO STYLE URL HERE
-const GEOJSON_PATH   = './south-bronx-map/data/sturla_analysis.geojson';
+const GEOJSON_PATH   = './south-bronx-map/data/sturla_grid_with_percentages.geojson';
 const MASK_PATH      = './south-bronx-map/data/inverted_mask.geojson';
 const S311_PATH      = './south-bronx-map/data/complaints_311.geojson';
 const FLOOD_PATH     = './south-bronx-map/data/floodnet_sensors_extended.geojson';
 const COMMUNITY_PATH = './south-bronx-map/data/community_nodes_extended.geojson';
-const HIGHWAY_PATH   = './south-bronx-map/data/cross_bronx_expressway.geojson';
+const HIGHWAY_PATH      = './south-bronx-map/data/cross_bronx_expressway.geojson';
+const STURLA_FINAL_PATH = './south-bronx-map/data/sturla_2017_c.geojson';
 
 // ── Chapter → map view definitions ───────────────────────────────────────────
 // Standard views:  bearing -45, pitch 60, fixed 2200 ms duration.
@@ -45,7 +46,7 @@ const SECTION_VIEWS = {
 
 const CHAPTER_LAYERS = {
   'chapter-1': {
-    show: ['sturla-extrusion', 'sturla-outline'],
+    show: ['sturla-glow-fill', 'sturla-glow-blur', 'sturla-ambient', 'sturla-trench', 'sturla-outline'],
     hide: [
       'highway-trench', 'highway-trench-core', 'highway-elevated',
       '311-circles', 'floodnet-circles', 'community-circles',
@@ -53,14 +54,14 @@ const CHAPTER_LAYERS = {
   },
   'chapter-2': {
     show: [
-      'sturla-extrusion', 'sturla-outline',
+      'sturla-glow-fill', 'sturla-glow-blur', 'sturla-ambient', 'sturla-trench', 'sturla-outline',
       'highway-trench', 'highway-trench-core', 'highway-elevated',
     ],
     hide: ['311-circles', 'floodnet-circles', 'community-circles'],
   },
   'chapter-3': {
     show: [
-      'sturla-extrusion', 'sturla-outline',
+      'sturla-glow-fill', 'sturla-glow-blur', 'sturla-ambient', 'sturla-trench', 'sturla-outline',
       'highway-trench', 'highway-trench-core', 'highway-elevated',
       '311-circles', 'floodnet-circles', 'community-circles',
     ],
@@ -181,10 +182,10 @@ map.on('load', () => {
       // Ensure all features have required properties
       data.features = data.features.filter(feature => {
         if (!feature.properties) return false;
-        // Ensure predicted_pm25 is a number or can be converted
-        if (feature.properties.predicted_pm25 !== null && 
-            feature.properties.predicted_pm25 !== undefined) {
-          feature.properties.predicted_pm25 = parseFloat(feature.properties.predicted_pm25) || 0;
+        // Ensure pm25_concentration is a number or can be converted
+        if (feature.properties.pm25_concentration !== null &&
+            feature.properties.pm25_concentration !== undefined) {
+          feature.properties.pm25_concentration = parseFloat(feature.properties.pm25_concentration) || 0;
         }
         return true;
       });
@@ -227,11 +228,15 @@ map.on('load', () => {
       return r.json();
     });
 
-  Promise.all([sturlaFetch, maskFetch, s311Fetch, floodFetch, communityFetch, highwayFetch])
-    .then(([geojson, maskGeojson, s311, flood, community, highway]) => {
+  const sturlaFinalFetch = fetch(STURLA_FINAL_PATH)
+    .then(r => r.ok ? r.json() : null)
+    .catch(() => null);
+
+  Promise.all([sturlaFetch, maskFetch, s311Fetch, floodFetch, communityFetch, highwayFetch, sturlaFinalFetch])
+    .then(([geojson, maskGeojson, s311, flood, community, highway, sturlaFinal]) => {
       addBuildings();
-      addSturlaLayer(geojson);
-      addHighwayZones(highway);                    // all highway layers start hidden
+      addSturlaLayer(geojson, sturlaFinal);         // glow uses sturla_final_classes if available
+      addHighwayZones(highway);                     // all highway layers start hidden
       addCommunityLayers(s311, flood, community);   // all community layers start hidden
       if (maskGeojson) addMaskLayers(maskGeojson);  // mask always on top
       hideLoading();
@@ -279,47 +284,162 @@ function addBuildings() {
   }
 }
 
-// ── STURLA Volumetric Fog Layer ────────────────────────────────────────────────────
-// Creates toxic neon fog effect that flows through the highway trench
-// showing PM2.5 exposure as volumetric colored gas
+// ── STURLA Neon Glow + Volumetric Fog ─────────────────────────────────────────
+// Three-layer stack replicating the Mapbox Studio "duplicate & blur" glow hack:
+//   1. sturla-glow-fill  — flat fill at 0.7 opacity (the "bottom" blurred copy)
+//   2. sturla-glow-blur  — line layer with line-blur:8 on cell edges (the blur)
+//   3. sturla-extrusion  — fill-extrusion at 0.35 opacity (the crisp top copy)
+//
+// Color key (sturla_class):
+//   p   →  harsh neon red   (#FF0044)   — paved / high PM2.5
+//   tpl →  mid grey         (#666666)   — trees/paved/light
+//   tg  →  bright cyan      (#00FFCC)   — trees/green / residential
 
-function addSturlaLayer(geojson) {
+function addSturlaLayer(geojson, sturlaFinal) {
 
+  // Source for the 3D extrusion — uses sturla_grid_with_percentages.geojson (has pm25_concentration + sturla_class)
   map.addSource('sturla-grid', {
     type: 'geojson',
     data: geojson,
   });
 
-  // Add the Volumetric Fog Extrusion Layer - STRICTLY 3D ONLY
+  // Source for glow layers — uses sturla_grid_with_percentages.geojson (has pct_building/pct_pave/pct_green)
+  // Falls back to sturla-grid if the file wasn't loaded.
+  const glowSource = sturlaFinal ? 'sturla-final' : 'sturla-grid';
+  if (sturlaFinal) {
+    map.addSource('sturla-final', { type: 'geojson', data: sturlaFinal });
+    console.log(`[app.js] ${sturlaFinal.features.length} sturla_grid_with_percentages cells loaded.`);
+  }
+
+  // Color expression: whichever of pct_building / pct_pave / pct_green is highest
+  // wins. This avoids 'b is in every compound class' problem.
+  const finalColorExpr = [
+    'case',
+    // pct_building > both others → harsh red
+    ['>',
+      ['to-number', ['get', 'pct_building'], 0],
+      ['max',
+        ['to-number', ['get', 'pct_pave'], 0],
+        ['to-number', ['get', 'pct_green'], 0]
+      ]
+    ], '#FF0044',
+    // pct_green > pct_pave (building already lost above) → bright cyan
+    ['>',
+      ['to-number', ['get', 'pct_green'], 0],
+      ['to-number', ['get', 'pct_pave'], 0]
+    ], '#00FFCC',
+    // Trees and pavement mixed → purple
+    ['all',
+      ['==', ['get', 'sturla_class'], 'tp']
+    ], '#9966FF',
+    // Buildings and pavement mixed → dark orange
+    ['all',
+      ['==', ['get', 'sturla_class'], 'bp']
+    ], '#CC5500',
+    // Pavement only → red
+    ['all',
+      ['==', ['get', 'sturla_class'], 'p']
+    ], '#FF0044',
+    // Additional classes
+    ['all',
+      ['==', ['get', 'sturla_class'], 'h']
+    ], '#FFD700',     // honey - high vegetation
+    ['all',
+      ['==', ['get', 'sturla_class'], 'bwp']
+    ], '#8B4513',    // olive - building + water + pavement
+    ['all',
+      ['==', ['get', 'sturla_class'], 'm']
+    ], '#4CAF50',     // brown - mixed moderate
+    ['all',
+      ['==', ['get', 'sturla_class'], 'gw']
+    ], '#2196F3',    // indigo - green + water
+    ['all',
+      ['==', ['get', 'sturla_class'], 'tgw']
+    ], '#9C27B0',    // teal - trees + green + water
+    // Default for any other classes
+    '#333333'
+  ];
+
+  // Updated color expression for all STURLA classes from latest analysis
+  const legacyColorExpr = [
+    'match', ['get', 'sturla_class'],
+    'p',   '#FF0044',     // harsh neon red — paved / high PM2.5
+    'bp',  '#FF6600',     // orange — buildings + pavement
+    'gp',  '#FFAA00',     // yellow-orange — grass + pavement
+    'tg',  '#00FFCC',     // bright cyan — trees + grass / residential
+    'bpg', '#9966FF',     // purple — mixed urban
+    'tp',  '#66FF66',     // lime — trees + pavement
+    'g',   '#00CC66',     // green — grass only
+    'b',   '#CC66CC',     // magenta — buildings only
+    '#333333'              // dark grey — other/unknown
+  ];
+
+  const glowColorExpr  = sturlaFinal ? finalColorExpr : legacyColorExpr;
+
+  // ── LAYER 1: Glow base fill — the "bottom duplicate" ──────────────────────
+  // Flat fill at high opacity. Provides the solid colour ground plane that
+  // the blur layer will radiate outward from.
   map.addLayer({
-    id: 'sturla-extrusion',
-    type: 'fill-extrusion',
-    source: 'sturla-grid',
+    id:     'sturla-glow-fill',
+    type:   'fill',
+    source: glowSource,
     paint: {
-      // EXACT NEON PALETTE - NO DEVIATIONS
-      'fill-extrusion-color': [
-        'match',
-        ['get', 'STURLA_class'],
-        'th', '#FF0055', // Neon Crimson
-        'td', '#FF6600', // Neon Orange
-        'ts', '#FFCC00', // Neon Yellow
-        'tg', '#00FFAA', // Neon Mint
-        '#888888'        // Fallback grey
-      ],
-      
-      // CRITICAL: 0.35 opacity for volumetric fog effect
-      'fill-extrusion-opacity': 0.35,
-      
-      // Height: PM2.5 multiplied by 100
+      'fill-color':   glowColorExpr,
+      'fill-opacity': 0.7,
+    },
+  });
+
+  // ── LAYER 2: Blur hack — the "5–10 px blur" duplicate ─────────────────────
+  // Mapbox GL JS has no fill-blur. A wide line layer on polygon edges with
+  // line-blur:8 spreads colour ~30–40 m outward from each cell boundary,
+  // creating the radiating neon halo seen in the Studio blur reference.
+  map.addLayer({
+    id:     'sturla-glow-blur',
+    type:   'line',
+    source: glowSource,
+    paint: {
+      'line-color':   glowColorExpr,
+      'line-width':   18,
+      'line-blur':     8,
+      'line-opacity': 0.45,
+    },
+  });
+
+  // ── LAYER 3a: Ambient grid — non-paved cells, flat + muted ───────────────
+  // All cells where sturla_class != 'p'. Flat height (0) so they read as a
+  // ground plane. Muted mint at 0.25 opacity.
+  map.addLayer({
+    id:     'sturla-ambient',
+    type:   'fill-extrusion',
+    source: 'sturla-grid',
+    filter: ['!=', ['get', 'sturla_class'], 'p'],
+    layout: { 'visibility': 'none' },
+    paint: {
+      'fill-extrusion-color':   '#a8dadc',
+      'fill-extrusion-opacity': 0.25,
+      'fill-extrusion-height':  0,
+      'fill-extrusion-base':    0,
+    },
+  });
+
+  // ── LAYER 3b: Trench spikes — paved (class 'p'), crimson, full PM2.5 height ─
+  // The "Atmospheric Trap" zone. Height = pm25_concentration × 100 so an 18 µg/m³
+  // cell reads as 1,800 m — a visible crimson spike above the ambient plane.
+  map.addLayer({
+    id:     'sturla-trench',
+    type:   'fill-extrusion',
+    source: 'sturla-grid',
+    filter: ['==', ['get', 'sturla_class'], 'p'],
+    layout: { 'visibility': 'none' },
+    paint: {
+      'fill-extrusion-color':             '#e63946',
+      'fill-extrusion-opacity':           0.85,
       'fill-extrusion-height': [
-        '*',
-        ['to-number', ['get', 'predicted_pm25'], 0],
-        100
+        '*', ['to-number', ['get', 'pm25_concentration'], 0], 100
       ],
-      
-      // CRITICAL: Vertical gradient for smooth gas effect
-      'fill-extrusion-vertical-gradient': true
-    }
+      'fill-extrusion-base':              0,
+      'fill-extrusion-vertical-gradient': true,
+    },
   });
 
   // Optional: Add subtle grid outline for definition (much lighter than before)
@@ -329,18 +449,16 @@ function addSturlaLayer(geojson) {
     source: 'sturla-grid',
     paint: {
       'line-color': [
-        'match', ['get', 'STURLA_class'],
-        'th', 'rgba(255, 0, 85, 0.3)',   // Neon Crimson with low opacity
-        'td', 'rgba(255, 102, 0, 0.25)', // Neon Orange with low opacity
-        'ts', 'rgba(255, 204, 0, 0.2)',  // Neon Yellow with low opacity
-        'tg', 'rgba(0, 255, 170, 0.15)', // Neon Mint with very low opacity
-        'rgba(128, 128, 128, 0.1)'        // Very subtle grey fallback
+        'match', ['get', 'sturla_class'],
+        'p',   'rgba(255, 0, 85, 0.3)',   // Paved — neon crimson
+        'tpl', 'rgba(255, 204, 0, 0.2)',  // Trees/Paved/Light — neon yellow
+        'tg',  'rgba(0, 255, 170, 0.15)', // Trees/Green — neon mint
+        'rgba(128, 128, 128, 0.1)'        // fallback
       ],
       'line-width': [
-        'match', ['get', 'STURLA_class'],
-        'th', 0.6,
-        'p',  0.6,
-              0.2
+        'match', ['get', 'sturla_class'],
+        'p', 0.6,
+             0.2
       ],
     },
   });
@@ -353,32 +471,49 @@ function addSturlaLayer(geojson) {
     offset:       8,
   });
 
-  map.on('mousemove', 'sturla-extrusion', e => {
+  map.on('mousemove', 'sturla-trench', e => {
     map.getCanvas().style.cursor = 'pointer';
     const p = e.features[0].properties;
+    const pm25 = p.pm25_concentration || p.dist_to_cbe || 0;
     hoverTip.setLngLat(e.lngLat)
       .setHTML(`
         <div style="font-family:Inter,sans-serif;font-size:11px;line-height:1.5;padding:3px 6px">
-          <strong style="font-size:12px;font-weight:700">${parseFloat(p.predicted_pm25).toFixed(1)} µg/m³</strong>
-          &nbsp;<code style="font-size:10px;font-weight:700;background:rgba(0,0,0,0.08);padding:0 3px">${p.STURLA_class}</code><br>
-          <span style="color:#9A9A9A;font-size:10px">Click for cell detail</span>
+          <strong style="font-size:12px;font-weight:700;color:#e63946">${parseFloat(pm25).toFixed(1)} µg/m³</strong>
+          &nbsp;<code style="font-size:10px;font-weight:700;background:rgba(0,0,0,0.08);padding:0 3px">${p.sturla_class}</code><br>
+          <span style="color:#9A9A9A;font-size:10px">Paved — high exposure · click for detail</span>
         </div>`)
       .addTo(map);
   });
 
-  map.on('mouseleave', 'sturla-extrusion', () => {
+  map.on('mouseleave', 'sturla-trench', () => {
+    map.getCanvas().style.cursor = '';
+    hoverTip.remove();
+  });
+
+  map.on('mousemove', 'sturla-ambient', e => {
+    map.getCanvas().style.cursor = 'pointer';
+    const p = e.features[0].properties;
+    const pm25 = p.pm25_concentration || p.dist_to_cbe || 0;
+    hoverTip.setLngLat(e.lngLat)
+      .setHTML(`
+        <div style="font-family:Inter,sans-serif;font-size:11px;line-height:1.5;padding:3px 6px">
+          <strong style="font-size:12px;font-weight:700">${parseFloat(pm25).toFixed(1)} µg/m³</strong>
+          &nbsp;<code style="font-size:10px;font-weight:700;background:rgba(0,0,0,0.08);padding:0 3px">${p.sturla_class}</code><br>
+          <span style="color:#9A9A9A;font-size:10px">Vegetated / ambient · click for detail</span>
+        </div>`)
+      .addTo(map);
+  });
+
+  map.on('mouseleave', 'sturla-ambient', () => {
     map.getCanvas().style.cursor = '';
     hoverTip.remove();
   });
 
   // ── Click popup — full cell inspection card ───────────────────────────────
   const classLabels = {
-    th:  'Trench / High Exposure',
-    p:   'Pavement / Trench',       // legacy
-    td:  'Transitional Dense',
-    tpl: 'Transitional Buffer',     // legacy
-    ts:  'Transitional Sparse',
-    tg:  'Green / Residential',
+    p:   'Paved — Trench Zone',
+    tpl: 'Trees / Paved / Light',
+    tg:  'Trees / Green',
   };
 
   const inspectPopup = new mapboxgl.Popup({
@@ -389,45 +524,38 @@ function addSturlaLayer(geojson) {
     maxWidth:     '268px',
   });
 
-  map.on('click', 'sturla-extrusion', e => {
+  ['sturla-trench', 'sturla-ambient'].forEach(layerId => map.on('click', layerId, e => {
     hoverTip.remove();
-    const p    = e.features[0].properties;
-    const pm   = parseFloat(p.predicted_pm25).toFixed(2);
-    const dist = p.dist_highway_m != null
-      ? `${parseFloat(p.dist_highway_m).toFixed(0)} m`
-      : '—';
-    const label = classLabels[p.STURLA_class] || p.STURLA_class;
+    const p = e.features[0].properties;
+    const pm25 = p.pm25_concentration || p.dist_to_cbe || 0;
+    const label = classLabels[p.sturla_class] || p.sturla_class;
+    const inTrench = p.sturla_class === 'p';
 
     inspectPopup.setLngLat(e.lngLat)
       .setHTML(`
         <div style="font-family:Inter,'Helvetica Neue',sans-serif">
           <div style="font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;
                       color:#9A9A9A;padding:12px 14px 8px;border-bottom:1px solid #ECECEC">
-            Cell Inspection
+            ${inTrench ? '<span style="color:#e63946">▲ Paved / High Exposure</span>' : 'Cell Inspection'}
           </div>
-          <table style="width:100%;border-collapse:collapse;font-size:12px;padding:0">
-            <tr style="border-bottom:1px solid #ECECEC">
-              <td style="padding:8px 14px;color:#555555;font-weight:500">STURLA Class</td>
-              <td style="padding:8px 14px;font-weight:700;text-align:right">
-                <code style="background:#ECECEC;padding:1px 6px;font-size:10px;font-weight:700">${p.STURLA_class}</code>
-              </td>
-            </tr>
-            <tr style="border-bottom:1px solid #ECECEC">
-              <td style="padding:8px 14px;color:#555555;font-weight:500">Classification</td>
-              <td style="padding:8px 14px;font-weight:600;text-align:right;font-size:11px">${label}</td>
+          <div style="padding:8px 12px">
+            <strong style="font-size:14px;color:#e63946">${parseFloat(pm25).toFixed(2)} µg/m³</strong>
+            <br><code style="font-size:11px;font-weight:700;background:rgba(0,0,0,0.08);padding:2px 4px">${label}</code>
+            ${inTrench ? '<br><span style="color:#9A9A9A;font-size:10px">High PM2.5 exposure zone • Paved surface with trapped pollutants</span>' : '<br><span style="color:#9A9A9A;font-size:10px">Click for detailed land cover breakdown</span>'}
+          </div>
             </tr>
             <tr style="border-bottom:1px solid #ECECEC">
               <td style="padding:8px 14px;color:#555555;font-weight:500">Predicted PM2.5</td>
               <td style="padding:8px 14px;font-weight:700;color:#C8321A;text-align:right">${pm} µg/m³</td>
             </tr>
             <tr>
-              <td style="padding:8px 14px;color:#555555;font-weight:500">Dist. to Highway</td>
-              <td style="padding:8px 14px;font-weight:600;text-align:right">${dist}</td>
+              <td style="padding:8px 14px;color:#555555;font-weight:500">Land Cover</td>
+              <td style="padding:8px 14px;font-weight:600;text-align:right;font-size:11px">${Math.round(p.pct_green)}% green / ${Math.round(p.pct_pave)}% paved</td>
             </tr>
           </table>
         </div>`)
       .addTo(map);
-  });
+  }));
 
   console.log(`[app.js] ${geojson.features.length} STURLA cells loaded.`);
 }

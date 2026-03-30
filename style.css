@@ -244,6 +244,35 @@ blockquote cite {
   font-weight: 600;
 }
 
+/* ── Analysis Figures ─────────────────────────────────────────────────────── */
+
+.analysis-fig {
+  margin: 28px -56px;
+  border-top: var(--border);
+  border-bottom: var(--border);
+}
+
+.analysis-fig img {
+  width: 100%;
+  display: block;
+  object-fit: contain;
+}
+
+.analysis-fig figcaption {
+  padding: 8px 56px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--grey-600);
+  background: var(--grey-100);
+  border-top: var(--border);
+}
+
+@media (max-width: 768px) {
+  .analysis-fig { margin: 20px -32px; }
+  .analysis-fig figcaption { padding: 8px 32px; }
+}
+
 /* ── Data Table ───────────────────────────────────────────────────────────── */
 
 .data-table {
