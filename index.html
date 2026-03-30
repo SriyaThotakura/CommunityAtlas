@@ -9,10 +9,88 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
   <link href="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <style>
+    .community-canvas-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #d32f2f;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+    }
+    .community-canvas-btn:hover {
+      background: #b71c1c;
+      transform: translateY(-2px);
+    }
+    .community-canvas-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      z-index: 2000;
+      display: none;
+    }
+    .community-canvas-frame {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      height: 90%;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      overflow: hidden;
+    }
+    .close-canvas-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: #d32f2f;
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 2001;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .close-canvas-btn:hover {
+      background: #b71c1c;
+    }
+  </style>
 </head>
 <body>
 
 <div id="app">
+
+  <!-- Community Canvas Button -->
+  <button class="community-canvas-btn" onclick="openCommunityCanvas()">
+    Community Atlas
+  </button>
+
+  <!-- Community Canvas Overlay -->
+  <div class="community-canvas-overlay" id="communityCanvasOverlay">
+    <button class="close-canvas-btn" onclick="closeCommunityCanvas()">×</button>
+    <div class="community-canvas-frame">
+      <iframe src="comunity.html" style="width: 100%; height: 100%; border: none; border-radius: 12px;"></iframe>
+    </div>
+  </div>
 
   <!-- ── LEFT: Journalistic Scroll ──────────────────────────────────────── -->
   <div id="scroll-panel">
@@ -124,6 +202,43 @@
         <img src="./south-bronx-map/data/sturla_feature_importance.png" alt="STURLA feature importance chart" loading="lazy">
         <figcaption>Random Forest feature importance analysis</figcaption>
       </figure>
+
+      <div class="data-table" style="margin-top:20px">
+        <div class="table-row table-header">
+          <span style="grid-column:1/4;font-size:9px;letter-spacing:0.2em">Spearman Correlation Matrix</span>
+          <span style="grid-column:2/4; text-align:center">PM2.5</span>
+          <span style="grid-column:3/4; text-align:center">Distance to Highway</span>
+          <span style="grid-column:4/4; text-align:center">Pavement %</span>
+        </div>
+        <div class="table-row table-header" style="background:var(--black);opacity:0.75">
+          <span>Variable</span>
+          <span>ρ (p-value)</span>
+          <span>Interpretation</span>
+          <span>Significance</span>
+        </div>
+        <div class="table-row">
+          <span>PM2.5 vs Distance</span>
+          <span style="font-weight:700;color:var(--accent)">-0.89</span>
+          <span>Strong negative</span>
+          <span>p &lt; 0.001</span>
+        </div>
+        <div class="table-row">
+          <span>PM2.5 vs Pavement</span>
+          <span style="font-weight:700;color:var(--accent)">+0.73</span>
+          <span>Strong positive</span>
+          <span>p &lt; 0.001</span>
+        </div>
+        <div class="table-row">
+          <span>Distance vs Pavement</span>
+          <span style="font-weight:700;color:var(--accent)">+0.81</span>
+          <span>Strong positive</span>
+          <span>p &lt; 0.001</span>
+        </div>
+        <div class="table-row" style="background:var(--grey-100)">
+          <span style="color:var(--grey-600)">Method</span>
+          <span colspan="3" style="color:var(--grey-400);font-size:10px">Spearman's rank correlation coefficient (ρ) calculated on 2,392 grid cells across Cross Bronx Expressway corridor. Non-parametric measure of monotonic relationship between variables.</span>
+        </div>
+      </div>
 
       <figure class="analysis-fig">
         <img src="./south-bronx-map/data/subdata/dd/sturla_hierarchical_visual.png" alt="STURLA class hierarchy diagram" loading="lazy">
@@ -322,21 +437,61 @@
         <div id="section-label-text">The Trench</div>
       </div>
 
-      <div id="legend" class="ui-card">
+      <div id="legend" class="ui-card" style="background: rgba(255,255,255,0.1);">
         <div class="legend-title">Predicted PM2.5 Exposure</div>
         <div class="legend-scale">Height = PM2.5 µg/m³ × 100</div>
         <div class="legend-items">
           <div class="legend-item">
-            <span class="legend-swatch swatch-p"></span>
+            <span class="legend-swatch" style="background:#FF0044;"></span>
             <span><code>p</code> Paved</span>
           </div>
           <div class="legend-item">
-            <span class="legend-swatch swatch-tpl"></span>
-            <span><code>tpl</code> Trees / Paved / Light</span>
+            <span class="legend-swatch" style="background:#FF6600;"></span>
+            <span><code>bp</code> Buildings + Pavement</span>
           </div>
           <div class="legend-item">
-            <span class="legend-swatch swatch-tg"></span>
-            <span><code>tg</code> Trees / Green</span>
+            <span class="legend-swatch" style="background:#FFAA00;"></span>
+            <span><code>gp</code> Grass + Pavement</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background:#00FFCC;"></span>
+            <span><code>tg</code> Trees + Grass</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background:#9966FF;"></span>
+            <span><code>bpg</code> Buildings + Pavement + Grass</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background:#66FF66;"></span>
+            <span><code>tp</code> Trees + Pavement</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background:#00CC66;"></span>
+            <span><code>g</code> Grass Only</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background:#CC66CC;"></span>
+            <span><code>b</code> Buildings Only</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background:#FFD700;"></span>
+            <span><code>h</code> High Vegetation</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background:#8B4513;"></span>
+            <span><code>bwp</code> Building + Water + Pavement</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background:#4CAF50;"></span>
+            <span><code>m</code> Mixed Moderate</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background:#2196F3;"></span>
+            <span><code>gw</code> Green + Water</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background:#9C27B0;"></span>
+            <span><code>tgw</code> Trees + Grass + Water</span>
           </div>
         </div>
 
@@ -364,17 +519,31 @@
             <span class="legend-dot" style="background:#3B82F6;border-color:#1A1A1A"></span>
             <span>FloodNet Sensor</span>
           </div>
+        </div>
+
+        <div class="legend-divider"></div>
+
+        <div class="legend-title" style="margin-top:15px; font-size:11px; color:#666;">Community NLP Categories</div>
+        <div class="legend-items" style="margin-top:8px">
           <div class="legend-item">
-            <span class="legend-dot" style="background:#C8321A;border-color:#FFFFFF"></span>
-            <span>NLP — Air Quality</span>
+            <span class="legend-dot" style="background:#D85A30;border-color:#FFFFFF"></span>
+            <span>Air Quality</span>
           </div>
           <div class="legend-item">
-            <span class="legend-dot" style="background:#F59E0B;border-color:#FFFFFF"></span>
-            <span>NLP — Heat</span>
+            <span class="legend-dot" style="background:#EF9F27;border-color:#FFFFFF"></span>
+            <span>Heat</span>
           </div>
           <div class="legend-item">
-            <span class="legend-dot" style="background:#7C3AED;border-color:#FFFFFF"></span>
-            <span>NLP — Displacement</span>
+            <span class="legend-dot" style="background:#7F77DD;border-color:#FFFFFF"></span>
+            <span>Displacement</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot" style="background:#3B8BD4;border-color:#FFFFFF"></span>
+            <span>Flooding</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot" style="background:#16A085;border-color:#FFFFFF"></span>
+            <span>Environmental Justice</span>
           </div>
         </div>
       </div>
@@ -387,5 +556,26 @@
 
 <script src="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js"></script>
 <script src="app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+<script src="map_community_mapbox.js"></script>
+<script>
+  // Community Canvas Functions
+  function openCommunityCanvas() {
+    document.getElementById('communityCanvasOverlay').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+  
+  function closeCommunityCanvas() {
+    document.getElementById('communityCanvasOverlay').style.display = 'none';
+    document.body.style.overflow = 'auto';
+  }
+  
+  // Close on escape key
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+      closeCommunityCanvas();
+    }
+  });
+</script>
 </body>
 </html>

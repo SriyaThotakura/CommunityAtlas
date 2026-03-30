@@ -777,11 +777,12 @@ function addCommunityLayers(s311, flood, community) {
       paint: {
         'circle-color': [
           'match', ['get', 'risk_category'],
-          'flood',        '#3B82F6',   // blue
-          'air_quality',  '#C8321A',   // forensic red
-          'heat',         '#F59E0B',   // amber
-          'displacement', '#7C3AED',   // purple
-          '#9A9A9A'                    // fallback grey
+          'air_quality',        '#D85A30',   // red-orange
+          'heat',               '#EF9F27',   // orange
+          'displacement',       '#7F77DD',   // purple
+          'flood',              '#3B8BD4',   // blue
+          'environmental_justice', '#16A085', // teal
+          '#9A9A9A'                           // fallback grey
         ],
         'circle-opacity':      0.85,
         'circle-stroke-color': '#FFFFFF',

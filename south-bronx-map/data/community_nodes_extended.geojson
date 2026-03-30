@@ -18,9 +18,12 @@
         "risk_category": "air_quality",
         "urgency": 0.8234,
         "agency": 0,
-        "quote": "The exhaust from Major Deegan and Cross Bronx junction creates a constant haze. My kids have asthma attacks daily, especially during rush hour traffic.",
+        "complaint_type": "highway_pollution",
+        "dominant_category": "air_quality",
+        "density_score": 0.923,
         "places_mentioned": ["Major Deegan Expressway", "Cross Bronx Expressway"],
-        "source": "interview"
+        "quote": "The exhaust from Major Deegan and Cross Bronx junction creates a constant haze. My kids have asthma attacks daily, especially during rush hour traffic.",
+        "id": "major_deegan_001"
       }
     },
     {
@@ -34,9 +37,12 @@
         "risk_category": "heat",
         "urgency": 0.7123,
         "agency": 0,
-        "quote": "University Heights becomes an oven in summer. The highway heat gets trapped between buildings, and we have no green spaces to escape.",
+        "complaint_type": "heat_island",
+        "dominant_category": "heat",
+        "density_score": 0.856,
         "places_mentioned": ["University Heights"],
-        "source": "interview"
+        "quote": "University Heights becomes an oven in summer. The highway heat gets trapped between buildings, and we have no green spaces to escape.",
+        "id": "university_heights_001"
       }
     },
     {
@@ -50,9 +56,12 @@
         "risk_category": "air_quality",
         "urgency": 0.9456,
         "agency": 0,
-        "quote": "Living right above the Jerome Avenue entrance means constant noise and pollution. Trucks shake our building at all hours.",
+        "complaint_type": "highway_pollution",
+        "dominant_category": "air_quality",
+        "density_score": 0.923,
         "places_mentioned": ["Jerome Avenue"],
-        "source": "interview"
+        "quote": "Living right above the Jerome Avenue entrance means constant noise and pollution. Trucks shake our building at all hours.",
+        "id": "jerome_avenue_001"
       }
     },
     {
@@ -66,9 +75,12 @@
         "risk_category": "displacement",
         "urgency": 0.6789,
         "agency": 0,
-        "quote": "Mount Eden rents keep rising as developers build luxury towers near the highway. Long-term families are being pushed out.",
+        "complaint_type": "housing_displacement",
+        "dominant_category": "displacement",
+        "density_score": 0.945,
         "places_mentioned": ["Mount Eden"],
-        "source": "interview"
+        "quote": "Mount Eden rents keep rising as developers build luxury towers near the highway. Long-term families are being pushed out.",
+        "id": "mount_eden_001"
       }
     },
     {
@@ -82,9 +94,12 @@
         "risk_category": "flood",
         "urgency": 0.8234,
         "agency": 0,
-        "quote": "Highbridge floods every heavy rain. The highway drainage overflows onto our streets and basements.",
+        "complaint_type": "drainage",
+        "dominant_category": "flood",
+        "density_score": 0.798,
         "places_mentioned": ["Highbridge"],
-        "source": "interview"
+        "quote": "Highbridge floods every heavy rain. The highway drainage overflows onto our streets and basements.",
+        "id": "highbridge_001"
       }
     },
     {
@@ -98,9 +113,12 @@
         "risk_category": "air_quality",
         "urgency": 0.7567,
         "agency": 0,
-        "quote": "Morris Heights has the highest asthma rates in the Bronx. The highway runs right through our neighborhood.",
+        "complaint_type": "highway_pollution",
+        "dominant_category": "air_quality",
+        "density_score": 0.923,
         "places_mentioned": ["Morris Heights"],
-        "source": "interview"
+        "quote": "Morris Heights has the highest asthma rates in the Bronx. The highway runs right through our neighborhood.",
+        "id": "morris_heights_001"
       }
     },
     {
@@ -113,10 +131,13 @@
         "type": "community",
         "risk_category": "heat",
         "urgency": 0.6890,
-        "agency": 0,
-        "quote": "Fordham Heights lacks trees. The highway heat radiates into our apartments, making summers unbearable.",
+        "agency": 1,
+        "complaint_type": "heat_island",
+        "dominant_category": "heat",
+        "density_score": 0.856,
         "places_mentioned": ["Fordham Heights"],
-        "source": "interview"
+        "quote": "Fordham Heights lacks trees. The highway heat radiates into our apartments, making summers unbearable.",
+        "id": "fordham_heights_001"
       }
     },
     {
@@ -130,9 +151,12 @@
         "risk_category": "displacement",
         "urgency": 0.7345,
         "agency": 0,
-        "quote": "Tremont is being gentrified. The highway makes our neighborhood 'accessible' to developers, but not to us anymore.",
+        "complaint_type": "housing_displacement",
+        "dominant_category": "displacement",
+        "density_score": 0.945,
         "places_mentioned": ["Tremont"],
-        "source": "interview"
+        "quote": "Tremont is being gentrified. The highway makes our neighborhood 'accessible' to developers, but not to us anymore.",
+        "id": "tremont_001"
       }
     },
     {
@@ -146,185 +170,111 @@
         "risk_category": "air_quality",
         "urgency": 0.8456,
         "agency": 0,
-        "quote": "West Farms is sandwiched between highways. The air quality is terrible, especially for our elderly residents.",
+        "complaint_type": "highway_pollution",
+        "dominant_category": "air_quality",
+        "density_score": 0.923,
         "places_mentioned": ["West Farms"],
-        "source": "interview"
+        "quote": "West Farms is sandwiched between highways. The air quality is terrible, especially for our elderly residents.",
+        "id": "west_farms_001"
       }
     },
     {
       "type": "Feature",
       "geometry": {
         "type": "Point",
-        "coordinates": [-73.8830, 40.8365]
-      },
-      "properties": {
-        "type": "community",
-        "risk_category": "flood",
-        "urgency": 0.7678,
-        "agency": 0,
-        "quote": "Crotona Park East floods constantly. The highway prevents proper water drainage in our area.",
-        "places_mentioned": ["Crotona Park East"],
-        "source": "interview"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [-73.8800, 40.8352]
-      },
-      "properties": {
-        "type": "community",
-        "risk_category": "heat",
-        "urgency": 0.6234,
-        "agency": 0,
-        "quote": "West Farms Square becomes a heat island. The highway asphalt absorbs heat all day and releases it at night.",
-        "places_mentioned": ["West Farms Square"],
-        "source": "interview"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [-73.8770, 40.8340]
+        "coordinates": [-73.885, 40.835]
       },
       "properties": {
         "type": "community",
         "risk_category": "air_quality",
-        "urgency": 0.8901,
+        "urgency": 0.85,
         "agency": 0,
-        "quote": "Bronx River highway crossing creates constant traffic jams. The idling trucks poison our air.",
-        "places_mentioned": ["Bronx River"],
-        "source": "interview"
+        "complaint_type": "highway_pollution",
+        "dominant_category": "air_quality",
+        "density_score": 0.923,
+        "places_mentioned": ["Cross Bronx Expressway", "Highway pollution", "Air quality complaints"],
+        "quote": "The highway never stops. The noise never stops. The air never clears. We live in the trench.",
+        "id": "cross_bronx_001"
       }
     },
     {
       "type": "Feature",
       "geometry": {
         "type": "Point",
-        "coordinates": [-73.8740, 40.8328]
+        "coordinates": [-73.890, 40.845]
+      },
+      "properties": {
+        "type": "community",
+        "risk_category": "heat",
+        "urgency": 0.72,
+        "agency": 1,
+        "complaint_type": "heat_island",
+        "dominant_category": "heat",
+        "density_score": 0.856,
+        "places_mentioned": ["Soundview Avenue", "Heat island effect", "Urban heat"],
+        "quote": "Soundview becomes an oven in summer. No trees, no shade, just concrete and asphalt trapping heat.",
+        "id": "soundview_001"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.910, 40.855]
       },
       "properties": {
         "type": "community",
         "risk_category": "displacement",
-        "urgency": 0.7012,
+        "urgency": 0.91,
         "agency": 0,
-        "quote": "Soundview rents are skyrocketing. The highway makes us 'convenient' but we can't afford to live here anymore.",
-        "places_mentioned": ["Soundview"],
-        "source": "interview"
+        "complaint_type": "housing_displacement",
+        "dominant_category": "displacement",
+        "density_score": 0.945,
+        "places_mentioned": ["Hunts Point", "Housing displacement", "Gentrification pressure"],
+        "quote": "They built the highway and then luxury housing followed. Long-time residents are being pushed out.",
+        "id": "huntspoint_001"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.910, 40.855]
       }
     },
     {
       "type": "Feature",
+      "properties": {
+        "type": "community",
+        "risk_category": "environmental_justice",
+        "urgency": 0.88,
+        "agency": 0,
+        "complaint_type": "environmental_justice",
+        "dominant_category": "environmental_justice",
+        "density_score": 0.934,
+        "places_mentioned": ["Hunts Point", "Environmental justice", "Industrial pollution"],
+        "quote": "Industrial facilities concentrate here. Community bears disproportionate environmental burden.",
+        "id": "huntspoint_001"
+      },
       "geometry": {
         "type": "Point",
-        "coordinates": [-73.8710, 40.8315]
-      },
+        "coordinates": [-73.915, 40.860]
+      }
+    },
+    {
+      "type": "Feature",
       "properties": {
         "type": "community",
         "risk_category": "flood",
-        "urgency": 0.7456,
+        "urgency": 0.82,
         "agency": 0,
-        "quote": "Castle Hill floods whenever it rains. The highway overpass blocks drainage and creates pools on our streets.",
-        "places_mentioned": ["Castle Hill"],
-        "source": "interview"
-      }
-    },
-    {
-      "type": "Feature",
+        "complaint_type": "drainage",
+        "dominant_category": "flood",
+        "density_score": 0.798,
+        "places_mentioned": ["Cross Bronx Expressway", "Flooding", "Poor drainage"],
+        "quote": "Street floods during heavy rain. Water backs up into basements.",
+        "id": "cross_bronx_002"
+      },
       "geometry": {
         "type": "Point",
-        "coordinates": [-73.8680, 40.8302]
-      },
-      "properties": {
-        "type": "community",
-        "risk_category": "air_quality",
-        "urgency": 0.8123,
-        "agency": 0,
-        "quote": "Parkchester has high cancer rates. We're surrounded by highway traffic on all sides.",
-        "places_mentioned": ["Parkchester"],
-        "source": "interview"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [-73.8650, 40.8290]
-      },
-      "properties": {
-        "type": "community",
-        "risk_category": "heat",
-        "urgency": 0.6567,
-        "agency": 0,
-        "quote": "Westchester Square has no shade. The highway creates a wind tunnel that makes the heat worse.",
-        "places_mentioned": ["Westchester Square"],
-        "source": "interview"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [-73.8620, 40.8278]
-      },
-      "properties": {
-        "type": "community",
-        "risk_category": "displacement",
-        "urgency": 0.7345,
-        "agency": 0,
-        "quote": "Pelham Bay is being developed rapidly. The highway makes us attractive to luxury developers.",
-        "places_mentioned": ["Pelham Bay"],
-        "source": "interview"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [-73.8590, 40.8265]
-      },
-      "properties": {
-        "type": "community",
-        "risk_category": "air_quality",
-        "urgency": 0.8789,
-        "agency": 0,
-        "quote": "Co-op City has terrible air quality. We're trapped between the Cross Bronx and other highways.",
-        "places_mentioned": ["Co-op City"],
-        "source": "interview"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [-73.8565, 40.8252]
-      },
-      "properties": {
-        "type": "community",
-        "risk_category": "flood",
-        "urgency": 0.7234,
-        "agency": 0,
-        "quote": "Bay Plaza floods constantly. The highway prevents proper water management in our area.",
-        "places_mentioned": ["Bay Plaza"],
-        "source": "interview"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [-73.8540, 40.8240]
-      },
-      "properties": {
-        "type": "community",
-        "risk_category": "heat",
-        "urgency": 0.6678,
-        "agency": 0,
-        "quote": "Near Throgs Neck Bridge, the heat from highway traffic is overwhelming. We have no relief.",
-        "places_mentioned": ["Throgs Neck Bridge"],
-        "source": "interview"
+        "coordinates": [-73.880, 40.830]
       }
     },
     {
@@ -341,6 +291,139 @@
         "quote": "Clearview Expressway junction creates constant traffic congestion. The air quality is dangerous.",
         "places_mentioned": ["Clearview Expressway"],
         "source": "interview"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "community",
+        "risk_category": "air_quality",
+        "urgency": 0.85,
+        "agency": 0,
+        "complaint_type": "air_quality",
+        "dominant_category": "air_quality",
+        "density_score": 0.923,
+        "places_mentioned": ["Cross Bronx Expressway", "Highway pollution", "Air quality complaints"],
+        "quote": "The highway never stops. The noise never stops. The air never clears. We live in the trench.",
+        "id": "cross_bronx_001"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.885, 40.835]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "community",
+        "risk_category": "heat",
+        "urgency": 0.72,
+        "agency": 1,
+        "complaint_type": "heat_island",
+        "dominant_category": "heat",
+        "density_score": 0.856,
+        "places_mentioned": ["Soundview Avenue", "Heat island effect", "Urban heat"],
+        "quote": "Soundview becomes an oven in summer. No trees, no shade, just concrete and asphalt trapping heat.",
+        "id": "soundview_001"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.890, 40.845]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "community",
+        "risk_category": "air_quality",
+        "urgency": 0.78,
+        "agency": 0,
+        "complaint_type": "noise_pollution",
+        "dominant_category": "air_quality",
+        "density_score": 0.887,
+        "places_mentioned": ["Cross Bronx Expressway", "Noise pollution", "Traffic noise"],
+        "quote": "24/7 noise from trucks and motorcycles. Can't sleep with windows open.",
+        "id": "cross_bronx_003"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.875, 40.825]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "community",
+        "risk_category": "heat",
+        "urgency": 0.68,
+        "agency": 1,
+        "complaint_type": "lack_green_space",
+        "dominant_category": "heat",
+        "density_score": 0.812,
+        "places_mentioned": ["Soundview Avenue", "Tree canopy", "Green space shortage"],
+        "quote": "No parks, no trees. Kids have nowhere to play outside.",
+        "id": "soundview_002"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.895, 40.850]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "community",
+        "risk_category": "air_quality",
+        "urgency": 0.82,
+        "agency": 0,
+        "complaint_type": "asthma_rates",
+        "dominant_category": "air_quality",
+        "density_score": 0.823,
+        "places_mentioned": ["Soundview Avenue", "Asthma", "Health impacts"],
+        "quote": "Child asthma rates 3x city average. Highway pollution impacts respiratory health.",
+        "id": "soundview_003"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.900, 40.840]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "community",
+        "risk_category": "heat",
+        "urgency": 0.75,
+        "agency": 1,
+        "complaint_type": "urban_heat",
+        "dominant_category": "heat",
+        "density_score": 0.867,
+        "places_mentioned": ["Hunts Point", "Urban heat", "Heat vulnerability"],
+        "quote": "Elderly most vulnerable to extreme heat events. No cooling centers nearby.",
+        "id": "soundview_003"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.920, 40.865]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "community",
+        "risk_category": "displacement",
+        "urgency": 0.86,
+        "agency": 0,
+        "complaint_type": "environmental_justice",
+        "dominant_category": "displacement",
+        "density_score": 0.867,
+        "places_mentioned": ["Hunts Point", "Environmental justice", "Industrial pollution"],
+        "quote": "Industrial facilities concentrate here. Community bears disproportionate environmental burden.",
+        "id": "huntspoint_002"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.915, 40.860]
       }
     }
   ]
